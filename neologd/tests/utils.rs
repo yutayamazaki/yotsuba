@@ -2,6 +2,7 @@
 mod tests {
     use neologd::normalize;
     use neologd::pad_sequence;
+    use neologd::pad_sequences;
     #[test]
     fn normalize_works() {
         // Test cases from: https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja#python-written-by-hideaki-t--overlast
@@ -116,5 +117,11 @@ mod tests {
     fn pad_sequence_works() {
         let sequence = vec![1, 2, 3];
         assert_eq!(pad_sequence(&sequence, 4, 0), vec![1, 2, 3, 0]);
+    }
+
+    #[test]
+    fn pad_sequences_works() {
+        let sequences = vec![vec![1, 2, 3], vec![0, 2]];
+        assert_eq!(pad_sequences(&sequences, 4, 0), vec![vec![1, 2, 3, 0], vec![0, 2, 0, 0]]);
     }
 }
