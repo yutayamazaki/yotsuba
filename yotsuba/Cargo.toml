@@ -1,5 +1,5 @@
 [package]
-name = "neologd"
+name = "yotsuba"
 version = "0.1.0"
 authors = ["yutayamazaki <tppymd@gmail.com>"]
 edition = "2018"
