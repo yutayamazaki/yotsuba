@@ -1,5 +1,7 @@
+flake8
 pip>=19.1
 hypothesis>=3.55
+mypy
 pytest>=3.5.0
 setuptools-rust>=0.10.2
 psutil>=5.6
