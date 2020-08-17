@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod tests {
     use neologd::normalize;
+    use neologd::pad_sequence;
     #[test]
     fn normalize_works() {
         // Test cases from: https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja#python-written-by-hideaki-t--overlast
@@ -109,5 +110,11 @@ mod tests {
             "南アルプスの天然水Sparking Lemonレモン一絞り"
         );
         println!("{} -> {}", problem, normalize(problem));
+    }
+
+    #[test]
+    fn pad_sequence_works() {
+        let sequence = vec![1, 2, 3];
+        assert_eq!(pad_sequence(&sequence, 4, 0), vec![1, 2, 3, 0]);
     }
 }
