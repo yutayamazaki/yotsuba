@@ -1,4 +1,4 @@
-# yotsuba
+# 🍀 yotsuba
 
 ## Build Rust package and use in Python.
 
