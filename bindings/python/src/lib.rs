@@ -9,7 +9,7 @@ fn neologd_normalize(text: String) -> PyResult<String> {
 }
 
 #[pymodule]
-fn neologd(_py: Python, m: &PyModule) -> PyResult<()> {
+fn yotsuba(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(neologd_normalize))?;
 
     Ok(())
