@@ -5,7 +5,13 @@ setup(
     name='yotsuba',
     version='0.1',
     rust_extensions=[
-        RustExtension('yotsuba', 'Cargo.toml', binding=Binding.PyO3)
+        RustExtension(
+            'yotsuba.yotsuba', path='Cargo.toml', binding=Binding.PyO3,
+            debug=False
+        )
+    ],
+    packages=[
+        'yotsuba',
     ],
     zip_safe=False
 )
