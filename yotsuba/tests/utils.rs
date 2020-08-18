@@ -1,8 +1,8 @@
 #[cfg(test)]
 mod tests {
-    use yotsuba::normalize;
-    use yotsuba::pad_sequence;
-    use yotsuba::pad_sequences;
+    use yotsuba::ja::normalize;
+    use yotsuba::utils::pad_sequence;
+    use yotsuba::utils::pad_sequences;
     #[test]
     fn normalize_works() {
         // Test cases from: https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja#python-written-by-hideaki-t--overlast

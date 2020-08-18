@@ -4,19 +4,19 @@ use yotsuba as yotsubars;
 
 #[pyfunction]
 fn normalize_neologd(text: &str) -> PyResult<String> {
-    let ret = yotsubars::normalize(text);
+    let ret = yotsubars::ja::normalize(text);
     Ok(ret)
 }
 
 #[pyfunction]
 fn pad_sequence(sequence: Vec<i32>, maxlen: i32, value: i32) -> PyResult<Vec<i32>> {
-    let ret = yotsubars::pad_sequence(&sequence, maxlen, value);
+    let ret = yotsubars::utils::pad_sequence(&sequence, maxlen, value);
     Ok(ret)
 }
 
 #[pyfunction]
 fn pad_sequences(sequences: Vec<Vec<i32>>, maxlen: i32, value: i32) -> PyResult<Vec<Vec<i32>>> {
-    let ret = yotsubars::pad_sequences(&sequences, maxlen, value);
+    let ret = yotsubars::utils::pad_sequences(&sequences, maxlen, value);
     Ok(ret)
 }
 
