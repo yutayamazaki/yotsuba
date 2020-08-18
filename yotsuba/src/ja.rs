@@ -183,7 +183,7 @@ fn is_hiragana(c: &char) -> bool {
     *c >= '\u{3041}' && *c <= '\u{309f}'
 }
 
-fn is_katakana(c: &char) -> bool {
+pub fn is_katakana(c: &char) -> bool {
     *c >= '\u{30a0}' && *c <= '\u{30ff}'
 }
 
