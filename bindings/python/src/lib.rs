@@ -1,5 +1,5 @@
 use pyo3::prelude::*;
-use pyo3::{wrap_pyfunction};
+use pyo3::{wrap_pyfunction, wrap_pymodule};
 use yotsuba as yotsubars;
 
 #[pyfunction]
@@ -21,10 +21,24 @@ fn pad_sequences(sequences: Vec<Vec<i32>>, maxlen: i32, value: i32) -> PyResult<
 }
 
 #[pymodule]
-fn yotsuba(_py: Python, m: &PyModule) -> PyResult<()> {
+fn ja(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(normalize_neologd))?;
+
+    Ok(())
+}
+
+#[pymodule]
+fn utils(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(pad_sequence))?;
     m.add_wrapped(wrap_pyfunction!(pad_sequences))?;
+
+    Ok(())
+}
+
+#[pymodule]
+fn yotsuba(_py: Python, m: &PyModule) -> PyResult<()> {
+    m.add_wrapped(wrap_pymodule!(ja))?;
+    m.add_wrapped(wrap_pymodule!(utils))?;
 
     Ok(())
 }

@@ -1,4 +1,4 @@
-from .yotsuba import *
+from . import yotsuba
 
 
 def say_hello() -> None:
