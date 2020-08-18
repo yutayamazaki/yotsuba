@@ -9,8 +9,8 @@ fn normalize_neologd(text: &str) -> PyResult<String> {
 }
 
 #[pyfunction]
-fn pad_sequence(sequence: Vec<i32>, maxlen: usize, value: Option<i32>) -> PyResult<Vec<i32>> {
-    let ret = yotsubars::utils::pad_sequence(&sequence, maxlen, value);
+fn pad_sequence(sequence: Vec<i32>, maxlen: usize, value: Option<i32>, padding: &str) -> PyResult<Vec<i32>> {
+    let ret = yotsubars::utils::pad_sequence(&sequence, maxlen, value, padding);
     Ok(ret)
 }
 

@@ -67,13 +67,19 @@ class PadSequenceTests(unittest.TestCase):
 
     def test_simple(self):
         padding: List[int] = yotsuba.utils.pad_sequence(
-            sequence=[0, 2, 1], maxlen=5, value=-1
+            sequence=[0, 2, 1], maxlen=5, value=-1, padding='post'
         )
         self.assertEqual(padding, [0, 2, 1, -1, -1])
 
+    def test_padding_pre(self):
+        padding: List[int] = yotsuba.utils.pad_sequence(
+            sequence=[0, 2, 1], maxlen=5, value=-1, padding='pre'
+        )
+        self.assertEqual(padding, [-1, -1, 0, 2, 1])
+
     def test_option_value(self):
         padding: List[int] = yotsuba.utils.pad_sequence(
-            sequence=[0, 2, 1], maxlen=5
+            sequence=[0, 2, 1], maxlen=5, padding='post'
         )
         self.assertEqual(padding, [0, 2, 1, 0, 0])
 

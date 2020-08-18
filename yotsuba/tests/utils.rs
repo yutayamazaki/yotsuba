@@ -2,6 +2,8 @@
 mod tests {
     use yotsuba::ja::normalize;
     use yotsuba::utils::pad_sequence;
+    use yotsuba::utils::pad_sequence_pre;
+    use yotsuba::utils::pad_sequence_post;
     use yotsuba::utils::pad_sequences;
     #[test]
     fn normalize_works() {
@@ -114,18 +116,6 @@ mod tests {
     }
 
     #[test]
-    fn pad_sequence_works() {
-        let sequence = vec![1, 2, 3];
-        assert_eq!(pad_sequence(&sequence, 4, Some(10)), vec![1, 2, 3, 10]);
-    }
-
-    #[test]
-    fn pad_sequence_option_value() {
-        let sequence = vec![1, 2, 3];
-        assert_eq!(pad_sequence(&sequence, 4, None), vec![1, 2, 3, 0]);
-    }
-
-    #[test]
     fn pad_sequences_works() {
         let sequences = vec![vec![1, 2, 3], vec![0, 2]];
         assert_eq!(pad_sequences(&sequences, Some(4), None), vec![vec![1, 2, 3, 0], vec![0, 2, 0, 0]]);
@@ -141,5 +131,36 @@ mod tests {
     fn pad_sequences_option_value() {
         let sequences = vec![vec![1, 2, 3], vec![0, 2]];
         assert_eq!(pad_sequences(&sequences, None, None), vec![vec![1, 2, 3], vec![0, 2, 0]]);
+    }
+
+    #[test]
+    fn pad_sequence_pre_works() {
+        let sequence = vec![1, 2, 3];
+        assert_eq!(pad_sequence_pre(&sequence, 5, None), vec![0, 0, 1, 2, 3]);
+    }
+
+    #[test]
+    fn pad_sequence_pre_maxlen_smaller_than_seqlen() {
+        let sequence = vec![1, 2, 3];
+        assert_eq!(pad_sequence_pre(&sequence, 2, None), vec![1, 2]);
+    }
+
+    #[test]
+    fn pad_sequence_post_works() {
+        let sequence = vec![1, 2, 3];
+        assert_eq!(pad_sequence_post(&sequence, 5, Some(5)), vec![1, 2, 3, 5, 5]);
+    }
+
+    #[test]
+    fn pad_sequence_post_maxlen_smaller_than_seqlen() {
+        let sequence = vec![1, 2, 3];
+        assert_eq!(pad_sequence_post(&sequence, 2, None), vec![1, 2]);
+    }
+
+    #[test]
+    fn pad_sequence_pre_and_post() {
+        let sequence = vec![1, 2, 3];
+        assert_eq!(pad_sequence(&sequence, 5, None, "pre"), vec![0, 0, 1, 2, 3]);
+        assert_eq!(pad_sequence(&sequence, 5, None, "post"), vec![1, 2, 3, 0, 0]);
     }
 }
