@@ -42,16 +42,17 @@ pub fn pad_sequence_pre(sequence: &Vec<i32>, maxlen: usize, value: Option<i32>) 
     ret
 }
 
-pub fn pad_sequence(sequence: &Vec<i32>, maxlen: usize, value: Option<i32>, padding: &str) -> Vec<i32> {
+pub fn pad_sequence(sequence: &Vec<i32>, maxlen: usize, value: Option<i32>, padding: Option<&str>) -> Vec<i32> {
     // sequence=[0, 1, 2], maxlen=5, value=10 -> [0, 1, 2, 10, 10]
-    if padding == "pre" {
+    let padding_ = padding.unwrap_or("post");
+    if padding_ == "pre" {
         return pad_sequence_pre(sequence, maxlen, value)
     } else {
         return pad_sequence_post(sequence, maxlen, value)
     }
 }
 
-pub fn pad_sequences(sequences: &Vec<Vec<i32>>, maxlen: Option<usize>, value: Option<i32>, padding: &str) -> Vec<Vec<i32>> {
+pub fn pad_sequences(sequences: &Vec<Vec<i32>>, maxlen: Option<usize>, value: Option<i32>, padding: Option<&str>) -> Vec<Vec<i32>> {
     // sequences=[[0, 1, 2], ...], maxlen=5, value=10 -> [[0, 1, 2, 10, 10], ...]
     let mut seq_maxlen = 0;
     if maxlen.is_none() {
@@ -66,8 +67,9 @@ pub fn pad_sequences(sequences: &Vec<Vec<i32>>, maxlen: Option<usize>, value: Op
     let pad_value = value.unwrap_or(0);
 
     let mut ret: Vec<Vec<i32>> = Vec::new();
+    let padding_ = padding.unwrap_or("post");
     for sequence in sequences {
-        ret.push(pad_sequence(sequence, seq_maxlen, Some(pad_value), padding));
+        ret.push(pad_sequence(sequence, seq_maxlen, Some(pad_value), Some(padding_)));
     }
     ret
 }
