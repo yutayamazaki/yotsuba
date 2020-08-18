@@ -15,8 +15,8 @@ fn pad_sequence(sequence: Vec<i32>, maxlen: usize, value: Option<i32>, padding: 
 }
 
 #[pyfunction]
-fn pad_sequences(sequences: Vec<Vec<i32>>, maxlen: Option<usize>, value: Option<i32>) -> PyResult<Vec<Vec<i32>>> {
-    let ret = yotsubars::utils::pad_sequences(&sequences, maxlen, value);
+fn pad_sequences(sequences: Vec<Vec<i32>>, maxlen: Option<usize>, value: Option<i32>, padding: &str) -> PyResult<Vec<Vec<i32>>> {
+    let ret = yotsubars::utils::pad_sequences(&sequences, maxlen, value, padding);
     Ok(ret)
 }
 

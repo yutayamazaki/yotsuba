@@ -89,21 +89,21 @@ class PadSequencesTests(unittest.TestCase):
     def test_simple(self):
         sequences: List[List[int]] = [[0, 2, 1], [0, 1]]
         padding: List[List[int]] = yotsuba.utils.pad_sequences(
-            sequences=sequences, maxlen=5, value=-1
+            sequences=sequences, maxlen=5, value=-1, padding='post'
         )
         self.assertEqual(padding, [[0, 2, 1, -1, -1], [0, 1, -1, -1, -1]])
 
     def test_option_maxlen(self):
         sequences: List[List[int]] = [[0, 2, 1], [0, 1]]
         padding: List[List[int]] = yotsuba.utils.pad_sequences(
-            sequences=sequences, value=-1
+            sequences=sequences, value=-1, padding='post'
         )
         self.assertEqual(padding, [[0, 2, 1], [0, 1, -1]])
 
     def test_option_value(self):
         sequences: List[List[int]] = [[0, 2, 1], [0, 1]]
         padding: List[List[int]] = yotsuba.utils.pad_sequences(
-            sequences=sequences
+            sequences=sequences, padding='post'
         )
         self.assertEqual(padding, [[0, 2, 1], [0, 1, 0]])
 

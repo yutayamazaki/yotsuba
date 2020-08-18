@@ -51,7 +51,7 @@ pub fn pad_sequence(sequence: &Vec<i32>, maxlen: usize, value: Option<i32>, padd
     }
 }
 
-pub fn pad_sequences(sequences: &Vec<Vec<i32>>, maxlen: Option<usize>, value: Option<i32>) -> Vec<Vec<i32>> {
+pub fn pad_sequences(sequences: &Vec<Vec<i32>>, maxlen: Option<usize>, value: Option<i32>, padding: &str) -> Vec<Vec<i32>> {
     // sequences=[[0, 1, 2], ...], maxlen=5, value=10 -> [[0, 1, 2, 10, 10], ...]
     let mut seq_maxlen = 0;
     if maxlen.is_none() {
@@ -67,7 +67,7 @@ pub fn pad_sequences(sequences: &Vec<Vec<i32>>, maxlen: Option<usize>, value: Op
 
     let mut ret: Vec<Vec<i32>> = Vec::new();
     for sequence in sequences {
-        ret.push(pad_sequence(sequence, seq_maxlen, Some(pad_value), "post"));
+        ret.push(pad_sequence(sequence, seq_maxlen, Some(pad_value), padding));
     }
     ret
 }

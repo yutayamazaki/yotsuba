@@ -118,19 +118,25 @@ mod tests {
     #[test]
     fn pad_sequences_works() {
         let sequences = vec![vec![1, 2, 3], vec![0, 2]];
-        assert_eq!(pad_sequences(&sequences, Some(4), None), vec![vec![1, 2, 3, 0], vec![0, 2, 0, 0]]);
+        assert_eq!(pad_sequences(&sequences, Some(4), None, "post"), vec![vec![1, 2, 3, 0], vec![0, 2, 0, 0]]);
     }
 
     #[test]
     fn pad_sequences_option_maxlen() {
         let sequences = vec![vec![1, 2, 3], vec![0, 2]];
-        assert_eq!(pad_sequences(&sequences, None, Some(-1)), vec![vec![1, 2, 3], vec![0, 2, -1]]);
+        assert_eq!(pad_sequences(&sequences, None, Some(-1), "post"), vec![vec![1, 2, 3], vec![0, 2, -1]]);
     }
 
     #[test]
     fn pad_sequences_option_value() {
         let sequences = vec![vec![1, 2, 3], vec![0, 2]];
-        assert_eq!(pad_sequences(&sequences, None, None), vec![vec![1, 2, 3], vec![0, 2, 0]]);
+        assert_eq!(pad_sequences(&sequences, None, None, "post"), vec![vec![1, 2, 3], vec![0, 2, 0]]);
+    }
+
+    #[test]
+    fn pad_sequences_padding_pre() {
+        let sequences = vec![vec![1, 2, 3], vec![0, 2]];
+        assert_eq!(pad_sequences(&sequences, None, None, "pre"), vec![vec![1, 2, 3], vec![0, 0, 2]]);
     }
 
     #[test]
