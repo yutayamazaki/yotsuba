@@ -71,7 +71,8 @@ class PadSequenceTests(unittest.TestCase):
 class PadSequencesTests(unittest.TestCase):
 
     def test_simple(self):
-        padding: List[int] = yotsuba.pad_sequences(
-            sequences=[[0, 2, 1], [0, 1]], maxlen=5, value=-1
+        sequences: List[List[int]] = [[0, 2, 1], [0, 1]]
+        padding: List[List[int]] = yotsuba.pad_sequences(
+            sequences=sequences, maxlen=5, value=-1
         )
         self.assertEqual(padding, [[0, 2, 1, -1, -1], [0, 1, -1, -1, -1]])
