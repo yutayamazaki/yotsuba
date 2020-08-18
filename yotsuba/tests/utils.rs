@@ -122,6 +122,12 @@ mod tests {
     #[test]
     fn pad_sequences_works() {
         let sequences = vec![vec![1, 2, 3], vec![0, 2]];
-        assert_eq!(pad_sequences(&sequences, 4, 0), vec![vec![1, 2, 3, 0], vec![0, 2, 0, 0]]);
+        assert_eq!(pad_sequences(&sequences, Some(4), 0), vec![vec![1, 2, 3, 0], vec![0, 2, 0, 0]]);
+    }
+
+    #[test]
+    fn pad_sequences_option_maxlen() {
+        let sequences = vec![vec![1, 2, 3], vec![0, 2]];
+        assert_eq!(pad_sequences(&sequences, None, 0), vec![vec![1, 2, 3], vec![0, 2, 0]]);
     }
 }

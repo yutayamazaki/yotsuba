@@ -9,48 +9,52 @@ class NormalizeTests(unittest.TestCase):
 
     def test_rust(self):
         start: float = time.time()
-        self.assertEqual(yotsuba.normalize_neologd("０１２３４５６７８９"), "0123456789")
-        self.assertEqual(yotsuba.normalize_neologd(
+        self.assertEqual(
+            yotsuba.ja.normalize_neologd("０１２３４５６７８９"),
+            "0123456789"
+        )
+        self.assertEqual(yotsuba.ja.normalize_neologd(
             "ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ"), "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         )
         self.assertEqual(
-            yotsuba.normalize_neologd("ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ"),
+            yotsuba.ja.normalize_neologd("ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ"),
             "abcdefghijklmnopqrstuvwxyz"
         )
         # self.assertEqual(yotsuba.normalize_neologd(
         #     "！”＃＄％＆’（）＊＋，－．／：；＜＞？＠［￥］＾＿｀｛｜｝"),
         #     "!\"#$%&'()*+,-./:;<>?@[¥]^_`{|}"
         # )
-        self.assertEqual(yotsuba.normalize_neologd("＝。、・「」"), "＝。、・「」")
-        self.assertEqual(yotsuba.normalize_neologd("ﾊﾝｶｸ"), "ハンカク")
-        self.assertEqual(yotsuba.normalize_neologd("o₋o"), "o-o")
-        self.assertEqual(yotsuba.normalize_neologd("majika━"), "majikaー")
-        self.assertEqual(yotsuba.normalize_neologd("わ〰い"), "わい")
-        self.assertEqual(yotsuba.normalize_neologd("スーパーーーー"), "スーパー")
-        self.assertEqual(yotsuba.normalize_neologd("!#"), "!#")
-        self.assertEqual(yotsuba.normalize_neologd("ゼンカク　スペース"), "ゼンカクスペース")
-        self.assertEqual(yotsuba.normalize_neologd("お             お"), "おお")
-        self.assertEqual(yotsuba.normalize_neologd("      おお"), "おお")
-        self.assertEqual(yotsuba.normalize_neologd("おお      "), "おお")
+        self.assertEqual(yotsuba.ja.normalize_neologd("＝。、・「」"), "＝。、・「」")
+        self.assertEqual(yotsuba.ja.normalize_neologd("ﾊﾝｶｸ"), "ハンカク")
+        self.assertEqual(yotsuba.ja.normalize_neologd("o₋o"), "o-o")
+        self.assertEqual(yotsuba.ja.normalize_neologd("majika━"), "majikaー")
+        self.assertEqual(yotsuba.ja.normalize_neologd("わ〰い"), "わい")
+        self.assertEqual(yotsuba.ja.normalize_neologd("スーパーーーー"), "スーパー")
+        self.assertEqual(yotsuba.ja.normalize_neologd("!#"), "!#")
+        self.assertEqual(yotsuba.ja.normalize_neologd("ゼンカク　スペース"), "ゼンカクスペース")
+        self.assertEqual(yotsuba.ja.normalize_neologd("お             お"), "おお")
+        self.assertEqual(yotsuba.ja.normalize_neologd("      おお"), "おお")
+        self.assertEqual(yotsuba.ja.normalize_neologd("おお      "), "おお")
         self.assertEqual(
-            yotsuba.normalize_neologd("検索 エンジン 自作 入門 を 買い ました!!!"),
+            yotsuba.ja.normalize_neologd("検索 エンジン 自作 入門 を 買い ました!!!"),
             "検索エンジン自作入門を買いました!!!"
         )
         self.assertEqual(
-            yotsuba.normalize_neologd("アルゴリズム C"), "アルゴリズムC"
+            yotsuba.ja.normalize_neologd("アルゴリズム C"), "アルゴリズムC"
         )
         self.assertEqual(
-            yotsuba.normalize_neologd("　　　ＰＲＭＬ　　副　読　本　　　"), "PRML副読本"
+            yotsuba.ja.normalize_neologd("　　　ＰＲＭＬ　　副　読　本　　　"), "PRML副読本"
         )
         self.assertEqual(
-            yotsuba.normalize_neologd("Coding the Matrix"), "Coding the Matrix"
+            yotsuba.ja.normalize_neologd("Coding the Matrix"),
+            "Coding the Matrix"
         )
         self.assertEqual(
-            yotsuba.normalize_neologd("南アルプスの　天然水　Ｓｐａｒｋｉｎｇ　Ｌｅｍｏｎ　レモン一絞り"),
+            yotsuba.ja.normalize_neologd("南アルプスの　天然水　Ｓｐａｒｋｉｎｇ　Ｌｅｍｏｎ　レモン一絞り"),
             "南アルプスの天然水Sparking Lemonレモン一絞り"
         )
         # self.assertEqual(
-        #     yotsuba.normalize_neologd(
+        #     yotsuba.ja.normalize_neologd(
         #         "南アルプスの　天然水-　Ｓｐａｒｋｉｎｇ*　Ｌｅｍｏｎ+　レモン一絞り"
         #     ),
         #     "南アルプスの天然水-Sparking*Lemon+レモン一絞り"
@@ -62,7 +66,7 @@ class NormalizeTests(unittest.TestCase):
 class PadSequenceTests(unittest.TestCase):
 
     def test_simple(self):
-        padding: List[int] = yotsuba.pad_sequence(
+        padding: List[int] = yotsuba.utils.pad_sequence(
             sequence=[0, 2, 1], maxlen=5, value=-1
         )
         self.assertEqual(padding, [0, 2, 1, -1, -1])
@@ -72,7 +76,18 @@ class PadSequencesTests(unittest.TestCase):
 
     def test_simple(self):
         sequences: List[List[int]] = [[0, 2, 1], [0, 1]]
-        padding: List[List[int]] = yotsuba.pad_sequences(
+        padding: List[List[int]] = yotsuba.utils.pad_sequences(
             sequences=sequences, maxlen=5, value=-1
         )
         self.assertEqual(padding, [[0, 2, 1, -1, -1], [0, 1, -1, -1, -1]])
+
+    def test_option_maxlen(self):
+        sequences: List[List[int]] = [[0, 2, 1], [0, 1]]
+        padding: List[List[int]] = yotsuba.utils.pad_sequences(
+            sequences=sequences, value=-1
+        )
+        self.assertEqual(padding, [[0, 2, 1], [0, 1, -1]])
+
+
+if __name__ == '__main__':
+    unittest.main()
