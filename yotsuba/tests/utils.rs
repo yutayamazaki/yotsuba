@@ -2,8 +2,8 @@
 mod tests {
     use yotsuba::ja::normalize;
     use yotsuba::utils::pad_sequence;
-    use yotsuba::utils::pad_sequence_pre;
     use yotsuba::utils::pad_sequence_post;
+    use yotsuba::utils::pad_sequence_pre;
     use yotsuba::utils::pad_sequences;
     use yotsuba::utils::remove_stopwords;
     #[test]
@@ -120,18 +120,43 @@ mod tests {
     fn pad_sequences_works() {
         // Argument maxlen
         let sequences = vec![vec![1, 2, 3], vec![0, 2]];
-        assert_eq!(pad_sequences(&sequences, Some(3), None, None), vec![vec![1, 2, 3], vec![0, 2, 0]]);
-        assert_eq!(pad_sequences(&sequences, Some(4), None, None), vec![vec![1, 2, 3, 0], vec![0, 2, 0, 0]]);
-        assert_eq!(pad_sequences(&sequences, None, None, None), pad_sequences(&sequences, Some(3), None, None));
+
+        assert_eq!(
+            pad_sequences(&sequences, Some(3), None, None).unwrap(),
+            vec![vec![1, 2, 3], vec![0, 2, 0]]
+        );
+        assert_eq!(
+            pad_sequences(&sequences, Some(4), None, None).unwrap(),
+            vec![vec![1, 2, 3, 0], vec![0, 2, 0, 0]]
+        );
+        assert_eq!(
+            pad_sequences(&sequences, None, None, None).unwrap(),
+            pad_sequences(&sequences, Some(3), None, None).unwrap()
+        );
 
         // Argument value
-        assert_eq!(pad_sequences(&sequences, None, None, None), vec![vec![1, 2, 3], vec![0, 2, 0]]);
-        assert_eq!(pad_sequences(&sequences, None, Some(1), None), vec![vec![1, 2, 3], vec![0, 2, 1]]);
-        assert_eq!(pad_sequences(&sequences, None, Some(0), None), pad_sequences(&sequences, None, None, None));
+        assert_eq!(
+            pad_sequences(&sequences, None, None, None).unwrap(),
+            vec![vec![1, 2, 3], vec![0, 2, 0]]
+        );
+        assert_eq!(
+            pad_sequences(&sequences, None, Some(1), None).unwrap(),
+            vec![vec![1, 2, 3], vec![0, 2, 1]]
+        );
+        assert_eq!(
+            pad_sequences(&sequences, None, Some(0), None).unwrap(),
+            pad_sequences(&sequences, None, None, None).unwrap()
+        );
 
         // Argument padding
-        assert_eq!(pad_sequences(&sequences, None, None, None), pad_sequences(&sequences, None, None, Some("post")));
-        assert_eq!(pad_sequences(&sequences, None, None, Some("pre")), vec![vec![1, 2, 3], vec![0, 0, 2]]);
+        assert_eq!(
+            pad_sequences(&sequences, None, None, None).unwrap(),
+            pad_sequences(&sequences, None, None, Some("post")).unwrap()
+        );
+        assert_eq!(
+            pad_sequences(&sequences, None, None, Some("pre")).unwrap(),
+            vec![vec![1, 2, 3], vec![0, 0, 2]]
+        );
     }
 
     #[test]
@@ -149,7 +174,10 @@ mod tests {
     #[test]
     fn pad_sequence_post_works() {
         let sequence = vec![1, 2, 3];
-        assert_eq!(pad_sequence_post(&sequence, 5, Some(5)), vec![1, 2, 3, 5, 5]);
+        assert_eq!(
+            pad_sequence_post(&sequence, 5, Some(5)),
+            vec![1, 2, 3, 5, 5]
+        );
     }
 
     #[test]
@@ -161,8 +189,14 @@ mod tests {
     #[test]
     fn pad_sequence_pre_and_post() {
         let sequence = vec![1, 2, 3];
-        assert_eq!(pad_sequence(&sequence, 5, None, Some("pre")), vec![0, 0, 1, 2, 3]);
-        assert_eq!(pad_sequence(&sequence, 5, None, Some("post")), vec![1, 2, 3, 0, 0]);
+        assert_eq!(
+            pad_sequence(&sequence, 5, None, Some("pre")),
+            vec![0, 0, 1, 2, 3]
+        );
+        assert_eq!(
+            pad_sequence(&sequence, 5, None, Some("post")),
+            vec![1, 2, 3, 0, 0]
+        );
     }
 
     #[test]

@@ -1,3 +1,22 @@
+#[derive(Debug)]
+pub enum PadSequenceError {
+    /// We support only "pre" and "post" as padding argument.
+    PaddingDoesNotSupport,
+}
+
+impl std::fmt::Display for PadSequenceError {
+    fn fmt(&self, fmt: &mut std::fmt::Formatter) -> std::fmt::Result {
+        use PadSequenceError::*;
+        match self {
+            PaddingDoesNotSupport => write!(
+                fmt,
+                "PadSequence error: Argument padding must be pre or post."
+            ),
+        }
+    }
+}
+impl std::error::Error for PadSequenceError {}
+
 pub fn pad_sequence_post(sequence: &Vec<i32>, maxlen: usize, value: Option<i32>) -> Vec<i32> {
     // sequence=[0, 1, 2], maxlen=5, value=10 -> [0, 1, 2, 10, 10]
     let mut ret: Vec<i32> = Vec::new();
@@ -25,7 +44,7 @@ pub fn pad_sequence_pre(sequence: &Vec<i32>, maxlen: usize, value: Option<i32>) 
             let idx = i as usize;
             ret.push(sequence[idx]);
         }
-        return ret
+        return ret;
     }
     let pad_size = maxlen - sequence.len();
     let pad_value = value.unwrap_or(0);
@@ -42,17 +61,27 @@ pub fn pad_sequence_pre(sequence: &Vec<i32>, maxlen: usize, value: Option<i32>) 
     ret
 }
 
-pub fn pad_sequence(sequence: &Vec<i32>, maxlen: usize, value: Option<i32>, padding: Option<&str>) -> Vec<i32> {
+pub fn pad_sequence(
+    sequence: &Vec<i32>,
+    maxlen: usize,
+    value: Option<i32>,
+    padding: Option<&str>,
+) -> Vec<i32> {
     // sequence=[0, 1, 2], maxlen=5, value=10 -> [0, 1, 2, 10, 10]
     let padding_ = padding.unwrap_or("post");
     if padding_ == "pre" {
-        return pad_sequence_pre(sequence, maxlen, value)
+        return pad_sequence_pre(sequence, maxlen, value);
     } else {
-        return pad_sequence_post(sequence, maxlen, value)
+        return pad_sequence_post(sequence, maxlen, value);
     }
 }
 
-pub fn pad_sequences(sequences: &Vec<Vec<i32>>, maxlen: Option<usize>, value: Option<i32>, padding: Option<&str>) -> Vec<Vec<i32>> {
+pub fn pad_sequences(
+    sequences: &Vec<Vec<i32>>,
+    maxlen: Option<usize>,
+    value: Option<i32>,
+    padding: Option<&str>,
+) -> Result<Vec<Vec<i32>>, PadSequenceError> {
     // sequences=[[0, 1, 2], ...], maxlen=5, value=10 -> [[0, 1, 2, 10, 10], ...]
     let mut seq_maxlen = 0;
     if maxlen.is_none() {
@@ -67,11 +96,21 @@ pub fn pad_sequences(sequences: &Vec<Vec<i32>>, maxlen: Option<usize>, value: Op
     let pad_value = value.unwrap_or(0);
 
     let mut ret: Vec<Vec<i32>> = Vec::new();
-    let padding_ = padding.unwrap_or("post");
+    let mut padding_ = padding.unwrap_or("post");
+    padding_ = match padding_ {
+        "post" => "post",
+        "pre" => "pre",
+        _ => return Err(PadSequenceError::PaddingDoesNotSupport),
+    };
     for sequence in sequences {
-        ret.push(pad_sequence(sequence, seq_maxlen, Some(pad_value), Some(padding_)));
+        ret.push(pad_sequence(
+            sequence,
+            seq_maxlen,
+            Some(pad_value),
+            Some(padding_),
+        ));
     }
-    ret
+    Ok(ret)
 }
 
 pub fn remove_stopwords(tokens: &Vec<&str>, stopwords: &Vec<&str>) -> Vec<String> {
