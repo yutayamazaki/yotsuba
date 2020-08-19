@@ -5,6 +5,7 @@ mod tests {
     use yotsuba::utils::pad_sequence_pre;
     use yotsuba::utils::pad_sequence_post;
     use yotsuba::utils::pad_sequences;
+    use yotsuba::utils::remove_stopwords;
     #[test]
     fn normalize_works() {
         // Test cases from: https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja#python-written-by-hideaki-t--overlast
@@ -162,5 +163,13 @@ mod tests {
         let sequence = vec![1, 2, 3];
         assert_eq!(pad_sequence(&sequence, 5, None, Some("pre")), vec![0, 0, 1, 2, 3]);
         assert_eq!(pad_sequence(&sequence, 5, None, Some("post")), vec![1, 2, 3, 0, 0]);
+    }
+
+    #[test]
+    fn remove_stopwords_works() {
+        let tokens = vec!["I", "am", "a", "dog"];
+        let stopwords = vec!["am", "a"];
+        let ret = remove_stopwords(&tokens, &stopwords);
+        assert_eq!(ret, vec!["I", "dog"]);
     }
 }

@@ -20,6 +20,11 @@ fn pad_sequences(sequences: Vec<Vec<i32>>, maxlen: Option<usize>, value: Option<
     Ok(ret)
 }
 
+#[pyfunction]
+fn remove_stopwords(tokens: Vec<&str>, stopwords: Vec<&str>) -> Vec<String> {
+    yotsubars::utils::remove_stopwords(&tokens, &stopwords)
+}
+
 #[pymodule]
 fn ja(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(normalize_neologd))?;
@@ -31,6 +36,7 @@ fn ja(_py: Python, m: &PyModule) -> PyResult<()> {
 fn utils(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(pad_sequence))?;
     m.add_wrapped(wrap_pyfunction!(pad_sequences))?;
+    m.add_wrapped(wrap_pyfunction!(remove_stopwords))?;
 
     Ok(())
 }

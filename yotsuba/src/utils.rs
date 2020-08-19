@@ -73,3 +73,14 @@ pub fn pad_sequences(sequences: &Vec<Vec<i32>>, maxlen: Option<usize>, value: Op
     }
     ret
 }
+
+pub fn remove_stopwords(tokens: &Vec<&str>, stopwords: &Vec<&str>) -> Vec<String> {
+    let mut ret: Vec<String> = Vec::new();
+    for i in 0..tokens.len() {
+        let token = tokens[i];
+        if !stopwords.contains(&token) {
+            ret.push(token.to_string());
+        }
+    }
+    ret
+}

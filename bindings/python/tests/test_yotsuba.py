@@ -108,5 +108,16 @@ class PadSequencesTests(unittest.TestCase):
         self.assertEqual(padding, [[0, 2, 1], [0, 1, 0]])
 
 
+class RemoveStopwordsTests(unittest.TestCase):
+
+    def test_simple(self):
+        tokens: List[str] = ['I', 'am', 'a', 'dog']
+        stopwords: List[str] = ['am', 'a']
+        removed: List[str] = yotsuba.utils.remove_stopwords(
+            tokens, stopwords
+        )
+        self.assertEqual(removed, ['I', 'dog'])
+
+
 if __name__ == '__main__':
     unittest.main()
