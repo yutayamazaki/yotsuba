@@ -107,6 +107,13 @@ class PadSequencesTests(unittest.TestCase):
         )
         self.assertEqual(padding, [[0, 2, 1], [0, 1, 0]])
 
+    def test_raise_invalid_padding(self):
+        sequences: List[List[int]] = [[0, 2, 1], [0, 1]]
+        with self.assertRaises(ValueError):
+            yotsuba.utils.pad_sequences(
+                sequences=sequences, padding='invalid'
+            )
+
 
 class RemoveStopwordsTests(unittest.TestCase):
 

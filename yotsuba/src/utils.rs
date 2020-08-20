@@ -8,10 +8,7 @@ impl std::fmt::Display for PadSequenceError {
     fn fmt(&self, fmt: &mut std::fmt::Formatter) -> std::fmt::Result {
         use PadSequenceError::*;
         match self {
-            PaddingDoesNotSupport => write!(
-                fmt,
-                "PadSequence error: Argument padding must be pre or post."
-            ),
+            PaddingDoesNotSupport => write!(fmt, "Argument 'padding' must be 'pre' or 'post'."),
         }
     }
 }

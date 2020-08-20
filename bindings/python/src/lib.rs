@@ -1,5 +1,8 @@
+mod errors;
+
 use pyo3::prelude::*;
 use pyo3::{wrap_pyfunction, wrap_pymodule};
+use pyo3::exceptions::{ValueError};
 use yotsuba as yotsubars;
 
 #[pyfunction]
@@ -17,7 +20,10 @@ fn pad_sequence(sequence: Vec<i32>, maxlen: usize, value: Option<i32>, padding: 
 #[pyfunction]
 fn pad_sequences(sequences: Vec<Vec<i32>>, maxlen: Option<usize>, value: Option<i32>, padding: Option<&str>) -> PyResult<Vec<Vec<i32>>> {
     let ret = yotsubars::utils::pad_sequences(&sequences, maxlen, value, padding);
-    Ok(ret)
+    match ret {
+        Ok(v) => Ok(v),
+        Err(e) => Err(PyErr::new::<ValueError, String>(e.to_string())),
+    }
 }
 
 #[pyfunction]
