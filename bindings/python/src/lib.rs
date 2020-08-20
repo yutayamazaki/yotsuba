@@ -12,7 +12,11 @@ fn normalize_neologd(text: &str) -> PyResult<String> {
 #[pyfunction]
 fn pad_sequence(sequence: Vec<i32>, maxlen: usize, value: Option<i32>, padding: Option<&str>) -> PyResult<Vec<i32>> {
     let ret = yotsubars::utils::pad_sequence(&sequence, maxlen, value, padding);
-    Ok(ret)
+    // Ok(ret)
+    match ret {
+        Ok(v) => return Ok(v),
+        Err(e) => return Err(PyErr::new::<ValueError, String>(e.to_string())),
+    };
 }
 
 #[pyfunction]

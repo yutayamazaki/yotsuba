@@ -83,6 +83,12 @@ class PadSequenceTests(unittest.TestCase):
         )
         self.assertEqual(padding, [0, 2, 1, 0, 0])
 
+    def test_raise_invalid_padding(self):
+        with self.assertRaises(ValueError):
+            yotsuba.utils.pad_sequence(
+                sequence=[0, 2, 1], maxlen=5, padding='invalid-padding'
+            )
+
 
 class PadSequencesTests(unittest.TestCase):
 
