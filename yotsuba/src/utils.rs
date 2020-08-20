@@ -80,6 +80,13 @@ pub fn pad_sequences(
     padding: Option<&str>,
 ) -> Result<Vec<Vec<i32>>, PadSequenceError> {
     // sequences=[[0, 1, 2], ...], maxlen=5, value=10 -> [[0, 1, 2, 10, 10], ...]
+    let mut padding_ = padding.unwrap_or("post");
+    padding_ = match padding_ {
+        "post" => "post",
+        "pre" => "pre",
+        _ => return Err(PadSequenceError::PaddingDoesNotSupport),
+    };
+
     let mut seq_maxlen = 0;
     if maxlen.is_none() {
         for sequence in sequences {
@@ -93,12 +100,6 @@ pub fn pad_sequences(
     let pad_value = value.unwrap_or(0);
 
     let mut ret: Vec<Vec<i32>> = Vec::new();
-    let mut padding_ = padding.unwrap_or("post");
-    padding_ = match padding_ {
-        "post" => "post",
-        "pre" => "pre",
-        _ => return Err(PadSequenceError::PaddingDoesNotSupport),
-    };
     for sequence in sequences {
         ret.push(pad_sequence(
             sequence,

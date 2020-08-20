@@ -1,5 +1,3 @@
-mod errors;
-
 use pyo3::prelude::*;
 use pyo3::{wrap_pyfunction, wrap_pymodule};
 use pyo3::exceptions::{ValueError};
