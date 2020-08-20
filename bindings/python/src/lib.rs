@@ -41,18 +41,12 @@ fn ja(_py: Python, m: &PyModule) -> PyResult<()> {
 }
 
 #[pymodule]
-fn utils(_py: Python, m: &PyModule) -> PyResult<()> {
+fn yotsuba(_py: Python, m: &PyModule) -> PyResult<()> {
+    m.add_wrapped(wrap_pymodule!(ja))?;
+
     m.add_wrapped(wrap_pyfunction!(pad_sequence))?;
     m.add_wrapped(wrap_pyfunction!(pad_sequences))?;
     m.add_wrapped(wrap_pyfunction!(remove_stopwords))?;
-
-    Ok(())
-}
-
-#[pymodule]
-fn yotsuba(_py: Python, m: &PyModule) -> PyResult<()> {
-    m.add_wrapped(wrap_pymodule!(ja))?;
-    m.add_wrapped(wrap_pymodule!(utils))?;
 
     Ok(())
 }

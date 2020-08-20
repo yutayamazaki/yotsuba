@@ -66,26 +66,26 @@ class NormalizeTests(unittest.TestCase):
 class PadSequenceTests(unittest.TestCase):
 
     def test_simple(self):
-        padding: List[int] = yotsuba.utils.pad_sequence(
+        padding: List[int] = yotsuba.pad_sequence(
             sequence=[0, 2, 1], maxlen=5, value=-1, padding='post'
         )
         self.assertEqual(padding, [0, 2, 1, -1, -1])
 
     def test_padding_pre(self):
-        padding: List[int] = yotsuba.utils.pad_sequence(
+        padding: List[int] = yotsuba.pad_sequence(
             sequence=[0, 2, 1], maxlen=5, value=-1, padding='pre'
         )
         self.assertEqual(padding, [-1, -1, 0, 2, 1])
 
     def test_option_value(self):
-        padding: List[int] = yotsuba.utils.pad_sequence(
+        padding: List[int] = yotsuba.pad_sequence(
             sequence=[0, 2, 1], maxlen=5, padding='post'
         )
         self.assertEqual(padding, [0, 2, 1, 0, 0])
 
     def test_raise_invalid_padding(self):
         with self.assertRaises(ValueError):
-            yotsuba.utils.pad_sequence(
+            yotsuba.pad_sequence(
                 sequence=[0, 2, 1], maxlen=5, padding='invalid-padding'
             )
 
@@ -94,21 +94,21 @@ class PadSequencesTests(unittest.TestCase):
 
     def test_simple(self):
         sequences: List[List[int]] = [[0, 2, 1], [0, 1]]
-        padding: List[List[int]] = yotsuba.utils.pad_sequences(
+        padding: List[List[int]] = yotsuba.pad_sequences(
             sequences=sequences, maxlen=5, value=-1, padding='post'
         )
         self.assertEqual(padding, [[0, 2, 1, -1, -1], [0, 1, -1, -1, -1]])
 
     def test_option_maxlen(self):
         sequences: List[List[int]] = [[0, 2, 1], [0, 1]]
-        padding: List[List[int]] = yotsuba.utils.pad_sequences(
+        padding: List[List[int]] = yotsuba.pad_sequences(
             sequences=sequences, value=-1, padding='post'
         )
         self.assertEqual(padding, [[0, 2, 1], [0, 1, -1]])
 
     def test_option_value(self):
         sequences: List[List[int]] = [[0, 2, 1], [0, 1]]
-        padding: List[List[int]] = yotsuba.utils.pad_sequences(
+        padding: List[List[int]] = yotsuba.pad_sequences(
             sequences=sequences, padding='post'
         )
         self.assertEqual(padding, [[0, 2, 1], [0, 1, 0]])
@@ -116,7 +116,7 @@ class PadSequencesTests(unittest.TestCase):
     def test_raise_invalid_padding(self):
         sequences: List[List[int]] = [[0, 2, 1], [0, 1]]
         with self.assertRaises(ValueError):
-            yotsuba.utils.pad_sequences(
+            yotsuba.pad_sequences(
                 sequences=sequences, padding='invalid'
             )
 
@@ -126,7 +126,7 @@ class RemoveStopwordsTests(unittest.TestCase):
     def test_simple(self):
         tokens: List[str] = ['I', 'am', 'a', 'dog']
         stopwords: List[str] = ['am', 'a']
-        removed: List[str] = yotsuba.utils.remove_stopwords(
+        removed: List[str] = yotsuba.remove_stopwords(
             tokens, stopwords
         )
         self.assertEqual(removed, ['I', 'dog'])
