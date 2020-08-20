@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 #[derive(Debug)]
 pub enum PadSequenceError {
     /// We support only "pre" and "post" as padding argument.
@@ -119,4 +121,28 @@ pub fn remove_stopwords(tokens: &Vec<&str>, stopwords: &Vec<&str>) -> Vec<String
         }
     }
     ret
+}
+
+pub fn count_token_frequency(docs: &Vec<Vec<&str>>) -> HashMap<String, u32> {
+    // Count frequency of given tokens.
+    let mut frequency: HashMap<String, u32> = HashMap::new();
+    for doc in docs {
+        for token in doc {
+            *frequency.entry(token.to_string()).or_insert(0) += 1;
+        }
+    }
+    frequency
+}
+
+pub fn get_stopwords_by_frequency(
+    docs: &Vec<Vec<&str>>,
+    max_freq: u32,
+    // min_freq: u32
+) -> Vec<String> {
+    let frequency: HashMap<String, u32> = count_token_frequency(docs);
+    frequency
+        .iter()
+        .filter(|&(_, freq)| freq >= &max_freq)
+        .map(|(token, _)| token.clone())
+        .collect()
 }

@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod tests {
     use yotsuba::ja::normalize;
+    use yotsuba::utils::get_stopwords_by_frequency;
     use yotsuba::utils::pad_sequence;
     use yotsuba::utils::pad_sequence_post;
     use yotsuba::utils::pad_sequence_pre;
@@ -205,5 +206,13 @@ mod tests {
         let stopwords = vec!["am", "a"];
         let ret = remove_stopwords(&tokens, &stopwords);
         assert_eq!(ret, vec!["I", "dog"]);
+    }
+
+    #[test]
+    fn get_stopwords_by_frequency_works() {
+        let docs = vec![vec!["I", "am", "a", "dog"], vec!["I", "have", "a", "pen"]];
+        let mut ret = get_stopwords_by_frequency(&docs, 2);
+        ret.sort();
+        assert_eq!(ret, vec!["I", "a"]);
     }
 }
