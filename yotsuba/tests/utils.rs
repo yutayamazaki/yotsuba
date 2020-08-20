@@ -190,11 +190,11 @@ mod tests {
     fn pad_sequence_pre_and_post() {
         let sequence = vec![1, 2, 3];
         assert_eq!(
-            pad_sequence(&sequence, 5, None, Some("pre")),
+            pad_sequence(&sequence, 5, None, Some("pre")).unwrap(),
             vec![0, 0, 1, 2, 3]
         );
         assert_eq!(
-            pad_sequence(&sequence, 5, None, Some("post")),
+            pad_sequence(&sequence, 5, None, Some("post")).unwrap(),
             vec![1, 2, 3, 0, 0]
         );
     }

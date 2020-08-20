@@ -63,14 +63,14 @@ pub fn pad_sequence(
     maxlen: usize,
     value: Option<i32>,
     padding: Option<&str>,
-) -> Vec<i32> {
+) -> Result<Vec<i32>, PadSequenceError> {
     // sequence=[0, 1, 2], maxlen=5, value=10 -> [0, 1, 2, 10, 10]
     let padding_ = padding.unwrap_or("post");
-    if padding_ == "pre" {
-        return pad_sequence_pre(sequence, maxlen, value);
-    } else {
-        return pad_sequence_post(sequence, maxlen, value);
-    }
+    match padding_ {
+        "post" => return Ok(pad_sequence_post(sequence, maxlen, value)),
+        "pre" => return Ok(pad_sequence_pre(sequence, maxlen, value)),
+        __ => return Err(PadSequenceError::PaddingDoesNotSupport),
+    };
 }
 
 pub fn pad_sequences(
@@ -101,12 +101,11 @@ pub fn pad_sequences(
 
     let mut ret: Vec<Vec<i32>> = Vec::new();
     for sequence in sequences {
-        ret.push(pad_sequence(
-            sequence,
-            seq_maxlen,
-            Some(pad_value),
-            Some(padding_),
-        ));
+        let pad = pad_sequence(sequence, seq_maxlen, Some(pad_value), Some(padding_));
+        match pad {
+            Ok(v) => ret.push(v),
+            Err(_) => return Err(PadSequenceError::PaddingDoesNotSupport),
+        };
     }
     Ok(ret)
 }
