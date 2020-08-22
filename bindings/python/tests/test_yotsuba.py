@@ -140,5 +140,15 @@ class GetStopwordsTests(unittest.TestCase):
         self.assertEqual(len(stopwords), 310)
 
 
+class GetStopwordsByFrequencyTests(unittest.TestCase):
+
+    def test_simple(self):
+        tokens: List[List[str]] = [
+            ['I', 'am', 'a', 'pen', 'pen'] for _ in range(50)
+        ]
+        stopwords: List[str] = yotsuba.get_stopwords_by_frequency(tokens, 100)
+        self.assertEqual(stopwords, ['pen'])
+
+
 if __name__ == '__main__':
     unittest.main()

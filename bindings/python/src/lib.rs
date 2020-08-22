@@ -1,6 +1,6 @@
+use pyo3::exceptions::ValueError;
 use pyo3::prelude::*;
 use pyo3::{wrap_pyfunction, wrap_pymodule};
-use pyo3::exceptions::{ValueError};
 use yotsuba as yotsubars;
 
 #[pyfunction]
@@ -10,7 +10,12 @@ fn normalize_neologd(text: &str) -> PyResult<String> {
 }
 
 #[pyfunction]
-fn pad_sequence(sequence: Vec<i32>, maxlen: usize, value: Option<i32>, padding: Option<&str>) -> PyResult<Vec<i32>> {
+fn pad_sequence(
+    sequence: Vec<i32>,
+    maxlen: usize,
+    value: Option<i32>,
+    padding: Option<&str>,
+) -> PyResult<Vec<i32>> {
     let ret = yotsubars::utils::pad_sequence(&sequence, maxlen, value, padding);
     // Ok(ret)
     match ret {
@@ -20,7 +25,12 @@ fn pad_sequence(sequence: Vec<i32>, maxlen: usize, value: Option<i32>, padding: 
 }
 
 #[pyfunction]
-fn pad_sequences(sequences: Vec<Vec<i32>>, maxlen: Option<usize>, value: Option<i32>, padding: Option<&str>) -> PyResult<Vec<Vec<i32>>> {
+fn pad_sequences(
+    sequences: Vec<Vec<i32>>,
+    maxlen: Option<usize>,
+    value: Option<i32>,
+    padding: Option<&str>,
+) -> PyResult<Vec<Vec<i32>>> {
     let ret = yotsubars::utils::pad_sequences(&sequences, maxlen, value, padding);
     match ret {
         Ok(v) => Ok(v),
@@ -42,6 +52,12 @@ fn get_stopwords(lang: &str) -> PyResult<Vec<&str>> {
     }
 }
 
+#[pyfunction]
+fn get_stopwords_by_frequency(docs: Vec<Vec<&str>>, max_freq: u32) -> PyResult<Vec<String>> {
+    let ret = yotsubars::utils::get_stopwords_by_frequency(&docs, max_freq);
+    Ok(ret)
+}
+
 #[pymodule]
 fn ja(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(normalize_neologd))?;
@@ -57,6 +73,7 @@ fn yotsuba(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(pad_sequences))?;
     m.add_wrapped(wrap_pyfunction!(remove_stopwords))?;
     m.add_wrapped(wrap_pyfunction!(get_stopwords))?;
+    m.add_wrapped(wrap_pyfunction!(get_stopwords_by_frequency))?;
 
     Ok(())
 }
