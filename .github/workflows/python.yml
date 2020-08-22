@@ -22,12 +22,12 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
+      working-directory: ./bindings/python
       run: |
         python -m pip install --upgrade pip
-        cd bindings/python
         pip install -r requirements-dev.txt
     - name: Lint with flake8
+      working-directory: ./bindings/python
       run: |
-        cd bindings/python
         flake8 yotsuba tests
         mypy yotsuba tests
