@@ -132,5 +132,13 @@ class RemoveStopwordsTests(unittest.TestCase):
         self.assertEqual(removed, ['I', 'dog'])
 
 
+class GetStopwordsTests(unittest.TestCase):
+
+    def test_simple(self):
+        stopwords: List[str] = yotsuba.get_stopwords(lang='ja')
+        self.assertIsInstance(stopwords, list)
+        self.assertEqual(len(stopwords), 310)
+
+
 if __name__ == '__main__':
     unittest.main()
