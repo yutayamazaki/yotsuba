@@ -57,4 +57,4 @@ jobs:
         working-directory: ./bindings/python/dist
         run: |
           for file in *.whl ; do mv $file ${file//macosx_10_1[0-9]/macosx_10_11} ; done
-          ls -l -a dist
+          ls -l -a
