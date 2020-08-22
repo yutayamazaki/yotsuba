@@ -9,6 +9,7 @@ cd /io/bindings/python/
 for PYBIN in /opt/python/cp{35,36,37,38,39}*/bin; do
     "${PYBIN}/pip" install -U setuptools wheel setuptools-rust
     "${PYBIN}/python" setup.py bdist_wheel
+    rm -rf build/*
 done
 
 for whl in dist/*.whl; do

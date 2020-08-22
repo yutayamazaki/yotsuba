@@ -1,0 +1,21 @@
+name: python-release
+
+on:
+  push:
+    branches: [ master, ci-setup ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  create_wheels_manylinux:
+    runs-on: ubuntu-latest
+    name: Create wheels for manylinux
+    container: quay.io/pypa/manylinux1_x86_64
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Build and audit wheels
+        working-directory: ./bindings/python
+        run: |
+          sh build-wheels.sh
+          ls -l -a dist
