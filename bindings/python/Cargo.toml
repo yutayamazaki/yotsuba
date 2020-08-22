@@ -17,3 +17,9 @@ version = "0.11"
 [dependencies.yotsuba]
 version = "*"
 path = "../../yotsuba"
+
+[target.x86_64-apple-darwin]
+rustflags = [
+  "-C", "link-arg=-undefined",
+  "-C", "link-arg=dynamic_lookup",
+]
