@@ -33,6 +33,15 @@ fn remove_stopwords(tokens: Vec<&str>, stopwords: Vec<&str>) -> Vec<String> {
     yotsubars::utils::remove_stopwords(&tokens, &stopwords)
 }
 
+#[pyfunction]
+fn get_stopwords(lang: &str) -> PyResult<Vec<&str>> {
+    let ret = yotsubars::utils::get_stopwords(lang);
+    match ret {
+        Ok(v) => Ok(v),
+        Err(e) => Err(PyErr::new::<ValueError, String>(e.to_string())),
+    }
+}
+
 #[pymodule]
 fn ja(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(normalize_neologd))?;
@@ -47,6 +56,7 @@ fn yotsuba(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(pad_sequence))?;
     m.add_wrapped(wrap_pyfunction!(pad_sequences))?;
     m.add_wrapped(wrap_pyfunction!(remove_stopwords))?;
+    m.add_wrapped(wrap_pyfunction!(get_stopwords))?;
 
     Ok(())
 }

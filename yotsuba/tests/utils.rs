@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod tests {
     use yotsuba::ja::normalize;
+    use yotsuba::utils::get_stopwords;
     use yotsuba::utils::get_stopwords_by_frequency;
     use yotsuba::utils::pad_sequence;
     use yotsuba::utils::pad_sequence_post;
@@ -214,5 +215,11 @@ mod tests {
         let mut ret = get_stopwords_by_frequency(&docs, 2);
         ret.sort();
         assert_eq!(ret, vec!["I", "a"]);
+    }
+
+    #[test]
+    fn get_stopwords_works() {
+        let ret = get_stopwords("ja");
+        assert_eq!(ret.unwrap().len(), 310);
     }
 }
