@@ -52,11 +52,9 @@ jobs:
         working-directory: ./bindings/python
         run: |
           python setup.py bdist_wheel
-          ls -l -a dist
 
       - name: Rename wheels
         shell: bash
         working-directory: ./bindings/python/dist
         run: |
           for file in *.whl ; do mv $file ${file//macosx_10_1[0-9]/macosx_10_11} ; done
-          ls -l -a
