@@ -12,14 +12,22 @@ python setup.py install
 
 ## API documents.
 
-`yotsuba.pad_sequences(sequences: List[List[int]], maxlen: int, value: int = 1, padding: str = 'post') -> List[List[int]]`
+### yotsuba
 
-Pad sequences by given value.
+#### `yotsuba.pad_sequences(sequences: List[List[int]], maxlen: int, value: int = 1, padding: str = 'post') -> List[List[int]]`
 
-### Parameters
+Pad sequences with given value like `keras.preprocessing.sequence.pad_sequences`.
 
-- **sequences (List[List[int]])** - Sequences to pad.
-- **maxlen (int)** - Max limit value to pad.
-- **value (int)** - A value to pad.
-- **padding (str)** - 'pre' or 'post', default is 'post'.
+##### Parameters
 
+- `sequences (List[List[int]])` - Sequences to padded.
+- `maxlen (int)` - Maximum sequence length to pad.
+- `value (int)` - A value used to pad sequences.
+- `padding (str)` - 'pre' or 'post', default is 'post'.
+
+##### Returns
+- `List[List[int]]` - An list of integers with shape (len(sequences), maxlen).
+
+##### Raises
+
+- ValueError - If `padding` is not 'pre' or 'post'.
