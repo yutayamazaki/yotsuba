@@ -28,3 +28,8 @@ jobs:
         shell: bash
         working-directory: ./yotsuba
         run: cargo test
+
+      - name: Lint with fmt
+        shell: bash
+        working-directory: ./yotsuba
+        run: cargo fmt -- --check
