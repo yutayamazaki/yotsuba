@@ -1,0 +1,31 @@
+name: Rust
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Install Rust Stable
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          components: rustfmt, clippy
+          override: true
+
+      # Necessary for now for the cargo cache: https://github.com/actions/cache/issues/133#issuecomment-599102035
+      - if: matrix.os == 'ubuntu-latest'
+        run: sudo chown -R $(whoami):$(id -ng) ~/.cargo/
+
+      - name: Run Tests
+        shell: bash
+        working-directory: ./yotsuba
+        run: cargo test
