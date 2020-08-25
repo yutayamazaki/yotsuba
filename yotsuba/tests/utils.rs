@@ -69,8 +69,7 @@ mod tests {
         println!("{} -> {}", problem, normalize(problem));
 
         // assert "ゼンカクスペース" == normalize_neologd("ゼンカク　スペース")
-        // 多分テストケースがおかしい
-        problem = "ゼンカクスペース";
+        problem = "ゼンカク　スペース";
         assert_eq!(normalize(problem), "ゼンカクスペース");
         println!("{} -> {}", problem, normalize(problem));
 
@@ -116,6 +115,13 @@ mod tests {
             "南アルプスの天然水Sparking Lemonレモン一絞り"
         );
         println!("{} -> {}", problem, normalize(problem));
+
+        // problem = "南アルプスの　天然水-　Ｓｐａｒｋｉｎｇ*　Ｌｅｍｏｎ+　レモン一絞り";
+        // assert_eq!(
+        //     normalize(problem),
+        //     "南アルプスの天然水-Sparking*Lemon+レモン一絞り"
+        // );
+        // println!("{} -> {}", problem, normalize(problem));
     }
 
     #[test]
