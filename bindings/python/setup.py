@@ -4,9 +4,9 @@ from setuptools import setup
 from setuptools_rust import Binding, RustExtension
 
 
-def get_long_description():
+def get_long_description() -> str:
     readme_filepath = os.path.join(os.path.dirname(__file__), 'README.md')
-    with open(readme_filepath) as f:
+    with open(readme_filepath, 'r', encoding='utf-8') as f:
         return f.read()
 
 
