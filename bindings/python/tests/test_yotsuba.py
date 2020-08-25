@@ -154,17 +154,26 @@ class CleanURLTests(unittest.TestCase):
 
     def test_simple(self):
         text: str = 'foohttp://example.com bar'
-        cleaned: str = yotsuba.clean_url(
-            text, ''
-        )
+        cleaned: str = yotsuba.clean_url(text)
         self.assertEqual(cleaned, 'foo bar')
 
     def test_replace(self):
-        text: str = 'foohttp://example.com bar'
-        cleaned: str = yotsuba.clean_url(
-            text=text, replace='<URL>'
-        )
+        text: str = 'foohttps://example.com bar'
+        cleaned: str = yotsuba.clean_url(text=text, replace='<URL>')
         self.assertEqual(cleaned, 'foo<URL> bar')
+
+
+class CleanHTMLTests(unittest.TestCase):
+
+    def test_simple(self):
+        text: str = 'foo<a>hello</a>bar'
+        cleaned: str = yotsuba.clean_html_tags(text)
+        self.assertEqual(cleaned, 'foohellobar')
+
+    def test_replace(self):
+        text: str = 'foo<a>hello</a>bar'
+        cleaned: str = yotsuba.clean_html_tags(text, replace=' ')
+        self.assertEqual(cleaned, 'foo hello bar')
 
 
 if __name__ == '__main__':

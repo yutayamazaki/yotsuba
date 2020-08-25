@@ -10,8 +10,14 @@ fn normalize_neologd(text: &str) -> PyResult<String> {
 }
 
 #[pyfunction]
-fn clean_url(text: &str, replace: &str) -> PyResult<String> {
+fn clean_url(text: &str, replace: Option<&str>) -> PyResult<String> {
     let ret = yotsubars::utils::clean_url(text, replace);
+    Ok(ret)
+}
+
+#[pyfunction]
+fn clean_html_tags(text: &str, replace: Option<&str>) -> PyResult<String> {
+    let ret = yotsubars::utils::clean_html_tags(text, replace);
     Ok(ret)
 }
 
@@ -78,6 +84,7 @@ fn yotsuba(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(pad_sequence))?;
     m.add_wrapped(wrap_pyfunction!(pad_sequences))?;
     m.add_wrapped(wrap_pyfunction!(remove_stopwords))?;
+    m.add_wrapped(wrap_pyfunction!(clean_html_tags))?;
     m.add_wrapped(wrap_pyfunction!(clean_url))?;
     m.add_wrapped(wrap_pyfunction!(get_stopwords))?;
     m.add_wrapped(wrap_pyfunction!(get_stopwords_by_frequency))?;

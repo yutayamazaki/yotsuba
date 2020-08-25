@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod tests {
     use yotsuba::ja::normalize;
+    use yotsuba::utils::clean_html_tags;
     use yotsuba::utils::clean_url;
     use yotsuba::utils::get_stopwords;
     use yotsuba::utils::get_stopwords_by_frequency;
@@ -171,8 +172,15 @@ mod tests {
     #[test]
     fn clean_url_works() {
         let text = "foohttp://localhost:8000 bar";
-        assert_eq!(clean_url(text, ""), "foo bar");
-        assert_eq!(clean_url(text, "<URL"), "foo<URL bar");
+        assert_eq!(clean_url(text, Some("")), "foo bar");
+        assert_eq!(clean_url(text, Some("<URL>")), "foo<URL> bar");
+    }
+
+    #[test]
+    fn clean_html_tags_works() {
+        let text = "foo<a>bar</a>.";
+        assert_eq!(clean_html_tags(text, Some("")), "foobar.");
+        assert_eq!(clean_html_tags(text, Some("<TAG>")), "foo<TAG>bar<TAG>.");
     }
 
     #[test]

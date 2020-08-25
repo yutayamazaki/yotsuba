@@ -127,10 +127,16 @@ pub fn remove_stopwords(tokens: &Vec<&str>, stopwords: &Vec<&str>) -> Vec<String
     ret
 }
 
-pub fn clean_url(text: &str, replace: &str) -> String {
-    let re = Regex::new(r"http\S+").unwrap();
-    re.is_match(text);
-    re.replace_all(text, replace).to_string()
+pub fn clean_url(text: &str, replace: Option<&str>) -> String {
+    let rep = Regex::new(r"http\S+").unwrap();
+    let replace_ = replace.unwrap_or("");
+    rep.replace_all(text, replace_).to_string()
+}
+
+pub fn clean_html_tags(text: &str, replace: Option<&str>) -> String {
+    let rep = Regex::new(r"<.+?>").unwrap();
+    let replace_ = replace.unwrap_or("");
+    rep.replace_all(text, replace_).to_string()
 }
 
 pub fn count_token_frequency(docs: &Vec<Vec<&str>>) -> HashMap<String, u32> {
