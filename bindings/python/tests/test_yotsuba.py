@@ -54,10 +54,10 @@ class NormalizeTests(unittest.TestCase):
             "南アルプスの天然水Sparking Lemonレモン一絞り"
         )
         # self.assertEqual(
+        #     '南アルプスの天然水-Sparking*Lemon+レモン一絞り',
         #     yotsuba.ja.normalize_neologd(
-        #         "南アルプスの　天然水-　Ｓｐａｒｋｉｎｇ*　Ｌｅｍｏｎ+　レモン一絞り"
-        #     ),
-        #     "南アルプスの天然水-Sparking*Lemon+レモン一絞り"
+        #         '南アルプスの　天然水-　Ｓｐａｒｋｉｎｇ*　Ｌｅｍｏｎ+　レモン一絞り'
+        #     )
         # )
         processing_time: float = time.time() - start
         print(f'Processing time of rust   : {processing_time}')
@@ -148,6 +148,23 @@ class GetStopwordsByFrequencyTests(unittest.TestCase):
         ]
         stopwords: List[str] = yotsuba.get_stopwords_by_frequency(tokens, 100)
         self.assertEqual(stopwords, ['pen'])
+
+
+class CleanURLTests(unittest.TestCase):
+
+    def test_simple(self):
+        text: str = 'foohttp://example.com bar'
+        cleaned: str = yotsuba.clean_url(
+            text, ''
+        )
+        self.assertEqual(cleaned, 'foo bar')
+
+    def test_replace(self):
+        text: str = 'foohttp://example.com bar'
+        cleaned: str = yotsuba.clean_url(
+            text=text, replace='<URL>'
+        )
+        self.assertEqual(cleaned, 'foo<URL> bar')
 
 
 if __name__ == '__main__':

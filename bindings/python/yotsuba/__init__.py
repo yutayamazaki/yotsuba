@@ -1,6 +1,6 @@
 from .yotsuba import ja
 from yotsuba.yotsuba import (
-    get_stopwords, get_stopwords_by_frequency, pad_sequence, pad_sequences,
+    clean_url, get_stopwords, get_stopwords_by_frequency, pad_sequence, pad_sequences,
     remove_stopwords
 )
 

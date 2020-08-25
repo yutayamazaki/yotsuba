@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod tests {
     use yotsuba::ja::normalize;
+    use yotsuba::utils::clean_url;
     use yotsuba::utils::get_stopwords;
     use yotsuba::utils::get_stopwords_by_frequency;
     use yotsuba::utils::pad_sequence;
@@ -165,6 +166,13 @@ mod tests {
             pad_sequences(&sequences, None, None, Some("pre")).unwrap(),
             vec![vec![1, 2, 3], vec![0, 0, 2]]
         );
+    }
+
+    #[test]
+    fn clean_url_works() {
+        let text = "foohttp://localhost:8000 bar";
+        assert_eq!(clean_url(text, ""), "foo bar");
+        assert_eq!(clean_url(text, "<URL"), "foo<URL bar");
     }
 
     #[test]

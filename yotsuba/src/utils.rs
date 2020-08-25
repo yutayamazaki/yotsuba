@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 
+use regex::Regex;
+
 #[derive(Debug)]
 pub enum YotsubaError {
     /// We support only "pre" and "post" as padding argument.
@@ -123,6 +125,12 @@ pub fn remove_stopwords(tokens: &Vec<&str>, stopwords: &Vec<&str>) -> Vec<String
         }
     }
     ret
+}
+
+pub fn clean_url(text: &str, replace: &str) -> String {
+    let re = Regex::new(r"http\S+").unwrap();
+    re.is_match(text);
+    re.replace_all(text, replace).to_string()
 }
 
 pub fn count_token_frequency(docs: &Vec<Vec<&str>>) -> HashMap<String, u32> {
