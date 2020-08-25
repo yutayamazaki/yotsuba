@@ -2,9 +2,8 @@ name: python-release
 
 on:
   push:
-    branches: [ master, ci-setup ]
-  pull_request:
-    branches: [ master ]
+    tags:
+      - python-v*
 
 jobs:
   create_wheels_manylinux:
@@ -58,3 +57,27 @@ jobs:
         working-directory: ./bindings/python/dist
         run: |
           for file in *.whl ; do mv $file ${file//macosx_10_1[0-9]/macosx_10_11} ; done
+
+  upload_package:
+    name: Upload packages to PyPi
+    runs-on: ubuntu-latest
+    needs: [create_wheels_manylinux, create_wheels_windows_32bit, create_wheels_others_64bit]
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Install Python
+        uses: actions/setup-python@v1
+
+      - name: Install dependencies
+        run: |
+          pip install setuptools wheel setuptools-rust
+      - name: Create source distribution
+        working-directory: ./bindings/python
+        run: sh build-sdist.sh
+
+      - name: Upload to PyPi
+        working-directory: ./bindings/python
+        run: |
+          pip install twine
+          twine upload dist/* -u __token__ -p "$PYPI_TOKEN"
