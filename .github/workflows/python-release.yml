@@ -5,6 +5,9 @@ on:
     tags:
       - python-v*
 
+env:
+  PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+
 jobs:
   create_wheels_manylinux:
     runs-on: ubuntu-latest
