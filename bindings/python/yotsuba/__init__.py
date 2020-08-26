@@ -1,6 +1,6 @@
 from .yotsuba import ja
 from yotsuba.yotsuba import (
-    clean_emails, clean_html_tags, clean_url, get_stopwords,
+    clean_emails, clean_html_tags, clean_number, clean_url, get_stopwords,
     get_stopwords_by_frequency, pad_sequence, pad_sequences,
     remove_stopwords
 )

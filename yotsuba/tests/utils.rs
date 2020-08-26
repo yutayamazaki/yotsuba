@@ -3,6 +3,7 @@ mod tests {
     use yotsuba::ja::normalize;
     use yotsuba::utils::clean_emails;
     use yotsuba::utils::clean_html_tags;
+    use yotsuba::utils::clean_number;
     use yotsuba::utils::clean_url;
     use yotsuba::utils::get_stopwords;
     use yotsuba::utils::get_stopwords_by_frequency;
@@ -192,6 +193,13 @@ mod tests {
 
         let text2 = "Hello a23@example2.com.";
         assert_eq!(clean_emails(text2, None), "Hello .");
+    }
+
+    #[test]
+    fn clean_number_works() {
+        let text = "I was born in 1912.02.04.";
+        assert_eq!(clean_number(text, None), "I was born in 0.0.0.");
+        assert_eq!(clean_number(text, Some("1")), "I was born in 1.1.1.");
     }
 
     #[test]

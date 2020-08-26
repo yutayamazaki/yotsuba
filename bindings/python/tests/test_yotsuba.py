@@ -130,5 +130,18 @@ class CleanEmailsTests(unittest.TestCase):
         self.assertEqual(cleaned, 'Regards, <EMAIL>.')
 
 
+class CleanNumberTests(unittest.TestCase):
+
+    def test_simple(self):
+        text: str = 'I was born in 1001.08.43.'
+        cleaned: str = yotsuba.clean_number(text)
+        self.assertEqual(cleaned, 'I was born in 0.0.0.')
+
+    def test_replace(self):
+        text: str = 'I was born in 1001.08.43.'
+        cleaned: str = yotsuba.clean_number(text, '1')
+        self.assertEqual(cleaned, 'I was born in 1.1.1.')
+
+
 if __name__ == '__main__':
     unittest.main()
