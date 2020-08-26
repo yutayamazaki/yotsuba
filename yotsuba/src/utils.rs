@@ -139,6 +139,13 @@ pub fn clean_html_tags(text: &str, replace: Option<&str>) -> String {
     rep.replace_all(text, replace_).to_string()
 }
 
+pub fn clean_emails(text: &str, replace: Option<&str>) -> String {
+    // let rep = Regex::new(r"[A-Za-z0-9._+]+@[A-Za-z]+.[A-Za-z]+").unwrap();
+    let rep = Regex::new(r"[\w\-._]+@[\w\-._]+\.[A-Za-z]+").unwrap();
+    let replace_ = replace.unwrap_or("");
+    rep.replace_all(text, replace_).to_string()
+}
+
 pub fn count_token_frequency(docs: &Vec<Vec<&str>>) -> HashMap<String, u32> {
     // Count frequency of given tokens.
     let mut frequency: HashMap<String, u32> = HashMap::new();

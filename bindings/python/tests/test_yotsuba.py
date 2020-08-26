@@ -104,7 +104,7 @@ class CleanURLTests(unittest.TestCase):
         self.assertEqual(cleaned, 'foo<URL> bar')
 
 
-class CleanHTMLTests(unittest.TestCase):
+class CleanHTMLTagsTests(unittest.TestCase):
 
     def test_simple(self):
         text: str = 'foo<a>hello</a>bar'
@@ -115,6 +115,19 @@ class CleanHTMLTests(unittest.TestCase):
         text: str = 'foo<a>hello</a>bar'
         cleaned: str = yotsuba.clean_html_tags(text, replace=' ')
         self.assertEqual(cleaned, 'foo hello bar')
+
+
+class CleanEmailsTests(unittest.TestCase):
+
+    def test_simple(self):
+        text: str = 'Regards, foo@example.com.'
+        cleaned: str = yotsuba.clean_emails(text)
+        self.assertEqual(cleaned, 'Regards, .')
+
+    def test_replace(self):
+        text: str = 'Regards, foo@example.com.'
+        cleaned: str = yotsuba.clean_emails(text, replace='<EMAIL>')
+        self.assertEqual(cleaned, 'Regards, <EMAIL>.')
 
 
 if __name__ == '__main__':

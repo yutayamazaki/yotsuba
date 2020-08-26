@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod tests {
     use yotsuba::ja::normalize;
+    use yotsuba::utils::clean_emails;
     use yotsuba::utils::clean_html_tags;
     use yotsuba::utils::clean_url;
     use yotsuba::utils::get_stopwords;
@@ -181,6 +182,16 @@ mod tests {
         let text = "foo<a>bar</a>.";
         assert_eq!(clean_html_tags(text, Some("")), "foobar.");
         assert_eq!(clean_html_tags(text, Some("<TAG>")), "foo<TAG>bar<TAG>.");
+    }
+
+    #[test]
+    fn clean_emails_works() {
+        let text1 = "Hello a@example.com.";
+        assert_eq!(clean_emails(text1, None), "Hello .");
+        assert_eq!(clean_emails(text1, Some("<EMAIL>")), "Hello <EMAIL>.");
+
+        let text2 = "Hello a23@example2.com.";
+        assert_eq!(clean_emails(text2, None), "Hello .");
     }
 
     #[test]

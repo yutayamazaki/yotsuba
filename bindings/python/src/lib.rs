@@ -22,6 +22,12 @@ fn clean_html_tags(text: &str, replace: Option<&str>) -> PyResult<String> {
 }
 
 #[pyfunction]
+fn clean_emails(text: &str, replace: Option<&str>) -> PyResult<String> {
+    let ret = yotsubars::utils::clean_emails(text, replace);
+    Ok(ret)
+}
+
+#[pyfunction]
 fn pad_sequence(
     sequence: Vec<i32>,
     maxlen: usize,
@@ -84,6 +90,7 @@ fn yotsuba(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(pad_sequence))?;
     m.add_wrapped(wrap_pyfunction!(pad_sequences))?;
     m.add_wrapped(wrap_pyfunction!(remove_stopwords))?;
+    m.add_wrapped(wrap_pyfunction!(clean_emails))?;
     m.add_wrapped(wrap_pyfunction!(clean_html_tags))?;
     m.add_wrapped(wrap_pyfunction!(clean_url))?;
     m.add_wrapped(wrap_pyfunction!(get_stopwords))?;
