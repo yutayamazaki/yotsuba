@@ -6,7 +6,10 @@ on:
       - python-v*
 
 env:
-  PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: us-east-1
+  PYPI_TOKEN: ${{ secrets.PYPI_TOKEN_DIST }}
 
 jobs:
   create_wheels_manylinux:
@@ -20,7 +23,12 @@ jobs:
         working-directory: ./bindings/python
         run: |
           sh build-wheels.sh
-          ls -l -a dist
+
+      - name: Upload wheels
+        shell: bash
+        run: |
+          pip install awscli
+          aws s3 sync --exact-timestamps ./bindings/python/dist "s3://yotsuba-releases/python/$GITHUB_SHA"
 
   create_wheels_others_64bit:
     name: Create wheels for other OSes
@@ -61,6 +69,12 @@ jobs:
         run: |
           for file in *.whl ; do mv $file ${file//macosx_10_1[0-9]/macosx_10_11} ; done
 
+      - name: Upload wheels
+        shell: bash
+        run: |
+          pip install awscli
+          aws s3 sync --exact-timestamps ./bindings/python/dist "s3://yotsuba-releases/python/$GITHUB_SHA"
+
   upload_package:
     name: Upload packages to PyPi
     runs-on: ubuntu-latest
@@ -72,9 +86,16 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v1
 
+      - name: Retrieve all wheels
+        shell: bash
+        run: |
+          pip install awscli
+          aws s3 sync "s3://yotsuba-releases/python/$GITHUB_SHA" ./bindings/python/dist
+
       - name: Install dependencies
         run: |
           pip install setuptools wheel setuptools-rust
+
       - name: Create source distribution
         working-directory: ./bindings/python
         run: python setup.py sdist
