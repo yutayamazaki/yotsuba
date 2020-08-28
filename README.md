@@ -1,12 +1,33 @@
 # 🍀 yotsuba
 
-## Build Rust package and use in Python.
+## Install yotsuba.
+
+- Python
 
 ```shell
-# In root directory
+git clone https://github.com/yutayamazaki/yotsuba.git
+cd yotsuba/bindings/python
+python setup.py install
+
+# via pip (under construction)
+# pip install yotsuba-python
+```
+
+## Contributing.
+
+### Python binding
+
+- Check code format and apply type checking.
+
+```shell
 cd bindings/python
-make build-release
-cp target/release/libyotsuba.so target/release/yotsuba.so
-cd target/release
+flake8 yotsuba tests
+mypy yotsuba tests
+```
+
+- Run unit-tests.
+
+```shell
+cd bindings/python
 python -m unittest discover tests
 ```

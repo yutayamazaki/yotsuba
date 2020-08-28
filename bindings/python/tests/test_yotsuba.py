@@ -1,66 +1,7 @@
-import time
 import unittest
 from typing import List
 
 import yotsuba
-
-
-class NormalizeTests(unittest.TestCase):
-
-    def test_rust(self):
-        start: float = time.time()
-        self.assertEqual(
-            yotsuba.ja.normalize_neologd("０１２３４５６７８９"),
-            "0123456789"
-        )
-        self.assertEqual(yotsuba.ja.normalize_neologd(
-            "ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ"), "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        )
-        self.assertEqual(
-            yotsuba.ja.normalize_neologd("ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ"),
-            "abcdefghijklmnopqrstuvwxyz"
-        )
-        # self.assertEqual(yotsuba.normalize_neologd(
-        #     "！”＃＄％＆’（）＊＋，－．／：；＜＞？＠［￥］＾＿｀｛｜｝"),
-        #     "!\"#$%&'()*+,-./:;<>?@[¥]^_`{|}"
-        # )
-        self.assertEqual(yotsuba.ja.normalize_neologd("＝。、・「」"), "＝。、・「」")
-        self.assertEqual(yotsuba.ja.normalize_neologd("ﾊﾝｶｸ"), "ハンカク")
-        self.assertEqual(yotsuba.ja.normalize_neologd("o₋o"), "o-o")
-        self.assertEqual(yotsuba.ja.normalize_neologd("majika━"), "majikaー")
-        self.assertEqual(yotsuba.ja.normalize_neologd("わ〰い"), "わい")
-        self.assertEqual(yotsuba.ja.normalize_neologd("スーパーーーー"), "スーパー")
-        self.assertEqual(yotsuba.ja.normalize_neologd("!#"), "!#")
-        self.assertEqual(yotsuba.ja.normalize_neologd("ゼンカク　スペース"), "ゼンカクスペース")
-        self.assertEqual(yotsuba.ja.normalize_neologd("お             お"), "おお")
-        self.assertEqual(yotsuba.ja.normalize_neologd("      おお"), "おお")
-        self.assertEqual(yotsuba.ja.normalize_neologd("おお      "), "おお")
-        self.assertEqual(
-            yotsuba.ja.normalize_neologd("検索 エンジン 自作 入門 を 買い ました!!!"),
-            "検索エンジン自作入門を買いました!!!"
-        )
-        self.assertEqual(
-            yotsuba.ja.normalize_neologd("アルゴリズム C"), "アルゴリズムC"
-        )
-        self.assertEqual(
-            yotsuba.ja.normalize_neologd("　　　ＰＲＭＬ　　副　読　本　　　"), "PRML副読本"
-        )
-        self.assertEqual(
-            yotsuba.ja.normalize_neologd("Coding the Matrix"),
-            "Coding the Matrix"
-        )
-        self.assertEqual(
-            yotsuba.ja.normalize_neologd("南アルプスの　天然水　Ｓｐａｒｋｉｎｇ　Ｌｅｍｏｎ　レモン一絞り"),
-            "南アルプスの天然水Sparking Lemonレモン一絞り"
-        )
-        # self.assertEqual(
-        #     yotsuba.ja.normalize_neologd(
-        #         "南アルプスの　天然水-　Ｓｐａｒｋｉｎｇ*　Ｌｅｍｏｎ+　レモン一絞り"
-        #     ),
-        #     "南アルプスの天然水-Sparking*Lemon+レモン一絞り"
-        # )
-        processing_time: float = time.time() - start
-        print(f'Processing time of rust   : {processing_time}')
 
 
 class PadSequenceTests(unittest.TestCase):
@@ -148,6 +89,58 @@ class GetStopwordsByFrequencyTests(unittest.TestCase):
         ]
         stopwords: List[str] = yotsuba.get_stopwords_by_frequency(tokens, 100)
         self.assertEqual(stopwords, ['pen'])
+
+
+class CleanURLTests(unittest.TestCase):
+
+    def test_simple(self):
+        text: str = 'foohttp://example.com bar'
+        cleaned: str = yotsuba.clean_url(text)
+        self.assertEqual(cleaned, 'foo bar')
+
+    def test_replace(self):
+        text: str = 'foohttps://example.com bar'
+        cleaned: str = yotsuba.clean_url(text=text, replace='<URL>')
+        self.assertEqual(cleaned, 'foo<URL> bar')
+
+
+class CleanHTMLTagsTests(unittest.TestCase):
+
+    def test_simple(self):
+        text: str = 'foo<a>hello</a>bar'
+        cleaned: str = yotsuba.clean_html_tags(text)
+        self.assertEqual(cleaned, 'foohellobar')
+
+    def test_replace(self):
+        text: str = 'foo<a>hello</a>bar'
+        cleaned: str = yotsuba.clean_html_tags(text, replace=' ')
+        self.assertEqual(cleaned, 'foo hello bar')
+
+
+class CleanEmailsTests(unittest.TestCase):
+
+    def test_simple(self):
+        text: str = 'Regards, foo@example.com.'
+        cleaned: str = yotsuba.clean_emails(text)
+        self.assertEqual(cleaned, 'Regards, .')
+
+    def test_replace(self):
+        text: str = 'Regards, foo@example.com.'
+        cleaned: str = yotsuba.clean_emails(text, replace='<EMAIL>')
+        self.assertEqual(cleaned, 'Regards, <EMAIL>.')
+
+
+class CleanNumberTests(unittest.TestCase):
+
+    def test_simple(self):
+        text: str = 'I was born in 1001.08.43.'
+        cleaned: str = yotsuba.clean_number(text)
+        self.assertEqual(cleaned, 'I was born in 0.0.0.')
+
+    def test_replace(self):
+        text: str = 'I was born in 1001.08.43.'
+        cleaned: str = yotsuba.clean_number(text, '1')
+        self.assertEqual(cleaned, 'I was born in 1.1.1.')
 
 
 if __name__ == '__main__':

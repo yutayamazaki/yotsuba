@@ -1,6 +1,10 @@
 #[cfg(test)]
 mod tests {
     use yotsuba::ja::normalize;
+    use yotsuba::utils::clean_emails;
+    use yotsuba::utils::clean_html_tags;
+    use yotsuba::utils::clean_number;
+    use yotsuba::utils::clean_url;
     use yotsuba::utils::get_stopwords;
     use yotsuba::utils::get_stopwords_by_frequency;
     use yotsuba::utils::pad_sequence;
@@ -69,8 +73,7 @@ mod tests {
         println!("{} -> {}", problem, normalize(problem));
 
         // assert "ゼンカクスペース" == normalize_neologd("ゼンカク　スペース")
-        // 多分テストケースがおかしい
-        problem = "ゼンカクスペース";
+        problem = "ゼンカク　スペース";
         assert_eq!(normalize(problem), "ゼンカクスペース");
         println!("{} -> {}", problem, normalize(problem));
 
@@ -116,6 +119,13 @@ mod tests {
             "南アルプスの天然水Sparking Lemonレモン一絞り"
         );
         println!("{} -> {}", problem, normalize(problem));
+
+        // problem = "南アルプスの　天然水-　Ｓｐａｒｋｉｎｇ*　Ｌｅｍｏｎ+　レモン一絞り";
+        // assert_eq!(
+        //     normalize(problem),
+        //     "南アルプスの天然水-Sparking*Lemon+レモン一絞り"
+        // );
+        // println!("{} -> {}", problem, normalize(problem));
     }
 
     #[test]
@@ -159,6 +169,37 @@ mod tests {
             pad_sequences(&sequences, None, None, Some("pre")).unwrap(),
             vec![vec![1, 2, 3], vec![0, 0, 2]]
         );
+    }
+
+    #[test]
+    fn clean_url_works() {
+        let text = "foohttp://localhost:8000 bar";
+        assert_eq!(clean_url(text, Some("")), "foo bar");
+        assert_eq!(clean_url(text, Some("<URL>")), "foo<URL> bar");
+    }
+
+    #[test]
+    fn clean_html_tags_works() {
+        let text = "foo<a>bar</a>.";
+        assert_eq!(clean_html_tags(text, Some("")), "foobar.");
+        assert_eq!(clean_html_tags(text, Some("<TAG>")), "foo<TAG>bar<TAG>.");
+    }
+
+    #[test]
+    fn clean_emails_works() {
+        let text1 = "Hello a@example.com.";
+        assert_eq!(clean_emails(text1, None), "Hello .");
+        assert_eq!(clean_emails(text1, Some("<EMAIL>")), "Hello <EMAIL>.");
+
+        let text2 = "Hello a23@example2.com.";
+        assert_eq!(clean_emails(text2, None), "Hello .");
+    }
+
+    #[test]
+    fn clean_number_works() {
+        let text = "I was born in 1912.02.04.";
+        assert_eq!(clean_number(text, None), "I was born in 0.0.0.");
+        assert_eq!(clean_number(text, Some("1")), "I was born in 1.1.1.");
     }
 
     #[test]
