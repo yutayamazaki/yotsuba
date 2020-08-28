@@ -24,12 +24,6 @@ jobs:
         run: |
           sh build-wheels.sh
 
-      - name: Upload wheels
-        shell: bash
-        run: |
-          pip install awscli
-          aws s3 sync --exact-timestamps ./bindings/python/dist "s3://yotsuba-releases/python/$GITHUB_SHA"
-
   create_wheels_others_64bit:
     name: Create wheels for other OSes
     env:
