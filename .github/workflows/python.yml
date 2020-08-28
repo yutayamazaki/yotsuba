@@ -29,5 +29,5 @@ jobs:
     - name: Lint with flake8
       working-directory: ./bindings/python
       run: |
-        flake8 yotsuba tests
-        mypy yotsuba tests
+        flake8 py_src/yotsuba tests
+        mypy py_src/yotsuba tests
