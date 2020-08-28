@@ -12,7 +12,7 @@ def get_long_description() -> str:
 
 def get_version():
     version_filepath = os.path.join(
-        os.path.dirname(__file__), 'yotsuba', 'version.py'
+        os.path.dirname(__file__), 'py_src', 'yotsuba', 'version.py'
     )
     with open(version_filepath) as f:
         for line in f:
@@ -45,6 +45,7 @@ setup(
             debug=False
         )
     ],
+    package_dir={'': 'py_src'},
     packages=[
         'yotsuba',
     ],
