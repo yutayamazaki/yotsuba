@@ -13,3 +13,10 @@ done
 for whl in dist/*.whl; do
     auditwheel repair "$whl" -w dist/
 done
+
+# Keep only manylinux wheels
+rm dist/*-linux_*
+
+# Upload wheels
+/opt/python/cp37-cp37m/bin/pip install -U awscli
+/opt/python/cp37-cp37m/bin/python -m awscli s3 sync --exact-timestamps ./dist "s3://yotsuba-releases/python/$GITHUB_SHA"
