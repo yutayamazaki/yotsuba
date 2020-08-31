@@ -153,6 +153,14 @@ pub fn clean_number(text: &str, replace: Option<&str>) -> String {
     rep.replace_all(text, replace_).to_string()
 }
 
+pub fn clean_emoji(text: &str, replace: Option<&str>) -> String {
+    // Maybe it's better?? https://gist.github.com/slowkow/7a7f61f495e3dbb7e3d767f97bd7304b
+    // regular expressions from https://github.com/rust-lang/regex/issues/645
+    let rep = Regex::new(r"\p{Emoji}").unwrap();
+    let replace_ = replace.unwrap_or("");
+    rep.replace_all(text, replace_).to_string()
+}
+
 pub fn count_token_frequency(docs: &Vec<Vec<&str>>) -> HashMap<String, u32> {
     // Count frequency of given tokens.
     let mut frequency: HashMap<String, u32> = HashMap::new();

@@ -91,17 +91,36 @@ class GetStopwordsByFrequencyTests(unittest.TestCase):
         self.assertEqual(stopwords, ['pen'])
 
 
-class CleanURLTests(unittest.TestCase):
+class CleanEmailsTests(unittest.TestCase):
 
     def test_simple(self):
-        text: str = 'foohttp://example.com bar'
-        cleaned: str = yotsuba.clean_url(text)
-        self.assertEqual(cleaned, 'foo bar')
+        text: str = 'Regards, foo@example.com.'
+        cleaned: str = yotsuba.clean_emails(text)
+        self.assertEqual(cleaned, 'Regards, .')
 
     def test_replace(self):
-        text: str = 'foohttps://example.com bar'
-        cleaned: str = yotsuba.clean_url(text=text, replace='<URL>')
-        self.assertEqual(cleaned, 'foo<URL> bar')
+        text: str = 'Regards, foo@example.com.'
+        cleaned: str = yotsuba.clean_emails(text, replace='<EMAIL>')
+        self.assertEqual(cleaned, 'Regards, <EMAIL>.')
+
+
+class CleanEmojiTests(unittest.TestCase):
+
+    def test_simple(self):
+        text: str = '🍀yotsuba is a fast nlp🤗 toolkit implemented by Rust.'
+        cleaned: str = yotsuba.clean_emoji(text)
+        self.assertEqual(
+            cleaned,
+            'yotsuba is a fast nlp toolkit implemented by Rust.'
+        )
+
+    def test_replace(self):
+        text: str = '🍀yotsuba is a fast nlp🤗 toolkit implemented by Rust.'
+        cleaned: str = yotsuba.clean_emoji(text, replace='<EMOJI>')
+        self.assertEqual(
+            cleaned,
+            '<EMOJI>yotsuba is a fast nlp<EMOJI> toolkit implemented by Rust.'
+        )
 
 
 class CleanHTMLTagsTests(unittest.TestCase):
@@ -117,19 +136,6 @@ class CleanHTMLTagsTests(unittest.TestCase):
         self.assertEqual(cleaned, 'foo hello bar')
 
 
-class CleanEmailsTests(unittest.TestCase):
-
-    def test_simple(self):
-        text: str = 'Regards, foo@example.com.'
-        cleaned: str = yotsuba.clean_emails(text)
-        self.assertEqual(cleaned, 'Regards, .')
-
-    def test_replace(self):
-        text: str = 'Regards, foo@example.com.'
-        cleaned: str = yotsuba.clean_emails(text, replace='<EMAIL>')
-        self.assertEqual(cleaned, 'Regards, <EMAIL>.')
-
-
 class CleanNumberTests(unittest.TestCase):
 
     def test_simple(self):
@@ -141,6 +147,19 @@ class CleanNumberTests(unittest.TestCase):
         text: str = 'I was born in 1001.08.43.'
         cleaned: str = yotsuba.clean_number(text, '1')
         self.assertEqual(cleaned, 'I was born in 1.1.1.')
+
+
+class CleanURLTests(unittest.TestCase):
+
+    def test_simple(self):
+        text: str = 'foohttp://example.com bar'
+        cleaned: str = yotsuba.clean_url(text)
+        self.assertEqual(cleaned, 'foo bar')
+
+    def test_replace(self):
+        text: str = 'foohttps://example.com bar'
+        cleaned: str = yotsuba.clean_url(text=text, replace='<URL>')
+        self.assertEqual(cleaned, 'foo<URL> bar')
 
 
 if __name__ == '__main__':

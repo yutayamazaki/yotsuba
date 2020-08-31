@@ -10,8 +10,14 @@ fn normalize_neologd(text: &str) -> PyResult<String> {
 }
 
 #[pyfunction]
-fn clean_url(text: &str, replace: Option<&str>) -> PyResult<String> {
-    let ret = yotsubars::utils::clean_url(text, replace);
+fn clean_emails(text: &str, replace: Option<&str>) -> PyResult<String> {
+    let ret = yotsubars::utils::clean_emails(text, replace);
+    Ok(ret)
+}
+
+#[pyfunction]
+fn clean_emoji(text: &str, replace: Option<&str>) -> PyResult<String> {
+    let ret = yotsubars::utils::clean_emoji(text, replace);
     Ok(ret)
 }
 
@@ -22,14 +28,14 @@ fn clean_html_tags(text: &str, replace: Option<&str>) -> PyResult<String> {
 }
 
 #[pyfunction]
-fn clean_emails(text: &str, replace: Option<&str>) -> PyResult<String> {
-    let ret = yotsubars::utils::clean_emails(text, replace);
+fn clean_number(text: &str, replace: Option<&str>) -> PyResult<String> {
+    let ret = yotsubars::utils::clean_number(text, replace);
     Ok(ret)
 }
 
 #[pyfunction]
-fn clean_number(text: &str, replace: Option<&str>) -> PyResult<String> {
-    let ret = yotsubars::utils::clean_number(text, replace);
+fn clean_url(text: &str, replace: Option<&str>) -> PyResult<String> {
+    let ret = yotsubars::utils::clean_url(text, replace);
     Ok(ret)
 }
 
@@ -96,9 +102,10 @@ fn yotsuba(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(pad_sequence))?;
     m.add_wrapped(wrap_pyfunction!(pad_sequences))?;
     m.add_wrapped(wrap_pyfunction!(remove_stopwords))?;
-    m.add_wrapped(wrap_pyfunction!(clean_number))?;
     m.add_wrapped(wrap_pyfunction!(clean_emails))?;
+    m.add_wrapped(wrap_pyfunction!(clean_emoji))?;
     m.add_wrapped(wrap_pyfunction!(clean_html_tags))?;
+    m.add_wrapped(wrap_pyfunction!(clean_number))?;
     m.add_wrapped(wrap_pyfunction!(clean_url))?;
     m.add_wrapped(wrap_pyfunction!(get_stopwords))?;
     m.add_wrapped(wrap_pyfunction!(get_stopwords_by_frequency))?;
