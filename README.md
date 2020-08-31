@@ -14,12 +14,13 @@
 - Python
 
 ```shell
+# Via pip
+pip install yotsuba-python
+
+# Build from source
 git clone https://github.com/yutayamazaki/yotsuba.git
 cd yotsuba/bindings/python
 python setup.py install
-
-# via pip (under construction)
-# pip install yotsuba-python
 ```
 
 ## Contributing.
