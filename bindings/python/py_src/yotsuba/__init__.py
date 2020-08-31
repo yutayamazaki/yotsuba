@@ -1,10 +1,6 @@
 from typing import List, Optional
 
 from .yotsuba import ja
-from yotsuba.yotsuba import (
-    clean_url, get_stopwords,
-    get_stopwords_by_frequency, remove_stopwords
-)
 from yotsuba import yotsuba
 
 
@@ -63,6 +59,58 @@ def clean_number(text: str, replace: str = '0') -> str:
     return yotsuba.clean_number(text, replace)
 
 
+def clean_url(text: str, replace: str = '') -> str:
+    """Replace urls with given string.
+
+    Args:
+        text: A text want to clean url.
+        replace: Token to replace url, default is ''.
+    Returns:
+        Cleaned text.
+    Examples:
+        >>> import yotsuba
+        >>> text: str = 'Wellcome to  https://github.com/yutayamazaki/yotsuba'
+        >>> yotsuba.clean_url(text)
+        'Wellcome to '
+    """
+    return yotsuba.clean_url(text, replace)
+
+
+def get_stopwords(lang: str = 'ja') -> List[str]:
+    """Get stopwords from http://svn.sourceforge.jp/svnroot/slothlib/CSharp/Version1/SlothLib/NLP/Filter/StopWord/word/Japanese.txt.
+
+    Args:
+        lang: Now, only support 'ja'.
+    Returns:
+        List of stopwords with length 310.
+    Examples:
+        >>> import yotsuba
+        >>> stopwords = yotsuba.get_stopwords('ja')
+        >>> len(stopwords)
+        310
+    """
+    return yotsuba.get_stopwords(lang)
+
+
+def get_stopwords_by_frequency(
+    docs: List[List[str]], max_freq: int
+) -> List[str]:
+    """Compute word frequency and return them as stopwords.
+
+    Args:
+        docs: Like [['I', 'am', 'a', 'dog'], ...].
+        max_freq: Words with over this frequecny are considered as stopwords.
+    Returns:
+        Computed stopwords.
+    Examples:
+        >>> import yotsuba
+        >>> docs = [['I', 'am', 'a', 'dog'], ['this', 'is', 'a', 'pen']]
+        >>> yotsuba.get_stopwords_by_frequency(docs, 2)
+        ['a']
+    """
+    return yotsuba.get_stopwords_by_frequency(docs, max_freq)
+
+
 def pad_sequence(
     sequence: List[int], maxlen: int, value: Optional[int] = None,
     padding: str = 'post'
@@ -113,3 +161,21 @@ def pad_sequences(
         [[0, 0, 0, 1, 2], [0, 0, 0, 0, 1]]
     """
     return yotsuba.pad_sequences(sequences, maxlen, value, padding)
+
+
+def remove_stopwords(tokens: List[str], stopwords: List[str]) -> List[str]:
+    """Remove stopwords from given tokens.
+
+    Args:
+        tokens: A list of string want to remove stopwords.
+        stopwords: Specify stopwords to remove.
+    Returns:
+        Stopwords removed tokens.
+    Examples:
+        >>> import yotsuba
+        >>> tokens = ['I', 'am', 'a', 'dog']
+        >>> stopwords = ['a']
+        >>> print(yotsuba.remove_stopwords(tokens, stopwords))
+            ['I', 'am', 'dog']
+    """
+    return yotsuba.remove_stopwords(tokens, stopwords)

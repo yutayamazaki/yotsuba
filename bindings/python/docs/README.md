@@ -14,3 +14,10 @@ sphinx-autobuild . build
 # Build html documents
 make html
 ```
+
+## Build docs and host them on GitHub Pages.
+
+```shell
+make html
+
+```
