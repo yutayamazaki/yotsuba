@@ -109,12 +109,18 @@ class CleanEmojiTests(unittest.TestCase):
     def test_simple(self):
         text: str = '🍀yotsuba is a fast nlp🤗 toolkit implemented by Rust.'
         cleaned: str = yotsuba.clean_emoji(text)
-        self.assertEqual(cleaned, 'yotsuba is a fast nlp toolkit implemented by Rust.')
+        self.assertEqual(
+            cleaned,
+            'yotsuba is a fast nlp toolkit implemented by Rust.'
+        )
 
     def test_replace(self):
         text: str = '🍀yotsuba is a fast nlp🤗 toolkit implemented by Rust.'
         cleaned: str = yotsuba.clean_emoji(text, replace='<EMOJI>')
-        self.assertEqual(cleaned, '<EMOJI>yotsuba is a fast nlp<EMOJI> toolkit implemented by Rust.')
+        self.assertEqual(
+            cleaned,
+            '<EMOJI>yotsuba is a fast nlp<EMOJI> toolkit implemented by Rust.'
+        )
 
 
 class CleanHTMLTagsTests(unittest.TestCase):
