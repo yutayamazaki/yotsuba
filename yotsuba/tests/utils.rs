@@ -2,6 +2,7 @@
 mod tests {
     use yotsuba::ja::normalize;
     use yotsuba::utils::clean_emails;
+    use yotsuba::utils::clean_emoji;
     use yotsuba::utils::clean_html_tags;
     use yotsuba::utils::clean_number;
     use yotsuba::utils::clean_url;
@@ -168,6 +169,19 @@ mod tests {
         assert_eq!(
             pad_sequences(&sequences, None, None, Some("pre")).unwrap(),
             vec![vec![1, 2, 3], vec![0, 0, 2]]
+        );
+    }
+
+    #[test]
+    fn clean_emoji_works() {
+        let text = "🍀yotsuba is a fast nlp🤗 toolkit implemented by Rust.";
+        assert_eq!(
+            clean_emoji(text, Some("")),
+            "yotsuba is a fast nlp toolkit implemented by Rust."
+        );
+        assert_eq!(
+            clean_emoji(text, Some("<EMOJI>")),
+            "<EMOJI>yotsuba is a fast nlp<EMOJI> toolkit implemented by Rust."
         );
     }
 
