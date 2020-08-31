@@ -23,6 +23,25 @@ def clean_emails(text: str, replace: str = '') -> str:
     return ytb.clean_emails(text, replace)
 
 
+def clean_emoji(text: str, replace: str = '') -> str:
+    """Replace emojis with given string.
+
+    Args:
+        text: A text want to clean emojis.
+        replace: Token to replace emaoji, default is ''.
+    Returns:
+        Cleaned text.
+    Examples:
+        >>> import yotsuba
+        >>> text: str = '🍀yotsuba is a fast nlp🤗 toolkit implemented by Rust.'
+        >>> print(yotsuba.clean_emoji(text))
+        yotsuba is a fast nlp toolkit implemented by Rust.
+        >>> print(yotsuba.clean_emoji(text, '<EMOJI>'))
+        <EMOJI>yotsuba is a fast nlp<EMOJI> toolkit implemented by Rust.
+    """
+    return ytb.clean_emoji(text, replace)
+
+
 def clean_html_tags(text: str, replace: str = '') -> str:
     """Replace html tags and replace it with given token.
 
