@@ -7,6 +7,7 @@
 ![GitHub Starts](https://img.shields.io/github/stars/yutayamazaki/yotsuba.svg?style=social)
 ![GitHub Forks](https://img.shields.io/github/forks/yutayamazaki/yotsuba.svg?style=social)
 
+[Documentation](https://yutayamazaki.github.io/yotsuba-docs/)
 
 ## Install yotsuba.
 

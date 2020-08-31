@@ -1,5 +1,7 @@
 # 🍀 yotsuba
 
+[Documentation](https://yutayamazaki.github.io/yotsuba-docs/)
+
 ## Install yotsuba.
 
 - Via pip (under construction)
