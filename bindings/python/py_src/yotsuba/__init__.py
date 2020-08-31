@@ -1,7 +1,7 @@
 from typing import List, Optional
 
-from .yotsuba import ja
-from yotsuba import yotsuba
+from yotsuba import ja
+from yotsuba import yotsuba as ytb  # type: ignore
 
 
 def clean_emails(text: str, replace: str = '') -> str:
@@ -20,7 +20,7 @@ def clean_emails(text: str, replace: str = '') -> str:
         >>> print(yotsuba.clean_emails(text, '<URL>'))
         Hello <URL>!
     """
-    return yotsuba.clean_emails(text, replace)
+    return ytb.clean_emails(text, replace)
 
 
 def clean_html_tags(text: str, replace: str = '') -> str:
@@ -39,7 +39,7 @@ def clean_html_tags(text: str, replace: str = '') -> str:
         >>> print(yotsuba.clean_html_tags(text, '<HTML>'))
         aaa<HTML>bbb<HTML>ccc
     """
-    return yotsuba.clean_html_tags(text, replace)
+    return ytb.clean_html_tags(text, replace)
 
 
 def clean_number(text: str, replace: str = '0') -> str:
@@ -56,7 +56,7 @@ def clean_number(text: str, replace: str = '0') -> str:
         >>> print(yotsuba.clean_number(text))
         I was born in 0.
     """
-    return yotsuba.clean_number(text, replace)
+    return ytb.clean_number(text, replace)
 
 
 def clean_url(text: str, replace: str = '') -> str:
@@ -73,7 +73,7 @@ def clean_url(text: str, replace: str = '') -> str:
         >>> yotsuba.clean_url(text)
         'Wellcome to '
     """
-    return yotsuba.clean_url(text, replace)
+    return ytb.clean_url(text, replace)
 
 
 def get_stopwords(lang: str = 'ja') -> List[str]:
@@ -89,7 +89,7 @@ def get_stopwords(lang: str = 'ja') -> List[str]:
         >>> len(stopwords)
         310
     """
-    return yotsuba.get_stopwords(lang)
+    return ytb.get_stopwords(lang)
 
 
 def get_stopwords_by_frequency(
@@ -108,7 +108,7 @@ def get_stopwords_by_frequency(
         >>> yotsuba.get_stopwords_by_frequency(docs, 2)
         ['a']
     """
-    return yotsuba.get_stopwords_by_frequency(docs, max_freq)
+    return ytb.get_stopwords_by_frequency(docs, max_freq)
 
 
 def pad_sequence(
@@ -133,7 +133,7 @@ def pad_sequence(
         >>> print(yotsuba.pad_sequence([0, 1, 2], 5, -1))
         [0, 1, 2, -1, -1]
     """
-    return yotsuba.pad_sequence(sequence, maxlen, value, padding)
+    return ytb.pad_sequence(sequence, maxlen, value, padding)
 
 
 def pad_sequences(
@@ -160,7 +160,7 @@ def pad_sequences(
         >>> print(yotsuba.pad_sequences([[0, 1, 2], [0, 1]], 5, padding='pre'))
         [[0, 0, 0, 1, 2], [0, 0, 0, 0, 1]]
     """
-    return yotsuba.pad_sequences(sequences, maxlen, value, padding)
+    return ytb.pad_sequences(sequences, maxlen, value, padding)
 
 
 def remove_stopwords(tokens: List[str], stopwords: List[str]) -> List[str]:
@@ -178,4 +178,4 @@ def remove_stopwords(tokens: List[str], stopwords: List[str]) -> List[str]:
         >>> print(yotsuba.remove_stopwords(tokens, stopwords))
             ['I', 'am', 'dog']
     """
-    return yotsuba.remove_stopwords(tokens, stopwords)
+    return ytb.remove_stopwords(tokens, stopwords)
