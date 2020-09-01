@@ -8,6 +8,7 @@ mod tests {
     use yotsuba::utils::clean_url;
     use yotsuba::utils::get_stopwords;
     use yotsuba::utils::get_stopwords_by_frequency;
+    use yotsuba::utils::normalize_contraction;
     use yotsuba::utils::pad_sequence;
     use yotsuba::utils::pad_sequence_post;
     use yotsuba::utils::pad_sequence_pre;
@@ -43,77 +44,62 @@ mod tests {
         assert_eq!(normalize(problem2), "＝。、・「」");
         println!("{} -> {}", problem2, normalize(problem2));
 
-        // assert "ハンカク" == normalize_neologd("ﾊﾝｶｸ")
         let problem3 = "ﾊﾝｶｸ";
         assert_eq!(normalize(problem3), "ハンカク");
         println!("{} -> {}", problem3, normalize(problem3));
 
-        // assert "o-o" == normalize_neologd("o₋o")
         let problem4 = "o₋o";
         assert_eq!(normalize(problem4), "o-o");
         println!("{} -> {}", problem4, normalize(problem4));
 
-        // assert "majikaー" == normalize_neologd("majika━")
         let mut problem = "majika━";
         assert_eq!(normalize(problem), "majikaー");
         println!("{} -> {}", problem, normalize(problem));
 
-        // assert "わい" == normalize_neologd("わ〰い")
         problem = "わ〰い";
         assert_eq!(normalize(problem), "わい");
         println!("{} -> {}", problem, normalize(problem));
 
-        // assert "スーパー" == normalize_neologd("スーパーーーー")
         problem = "スーパーーーー";
         assert_eq!(normalize(problem), "スーパー");
         println!("{} -> {}", problem, normalize(problem));
 
-        // assert "!#" == normalize_neologd("!#")
         problem = "!#";
         assert_eq!(normalize(problem), "!#");
         println!("{} -> {}", problem, normalize(problem));
 
-        // assert "ゼンカクスペース" == normalize_neologd("ゼンカク　スペース")
         problem = "ゼンカク　スペース";
         assert_eq!(normalize(problem), "ゼンカクスペース");
         println!("{} -> {}", problem, normalize(problem));
 
-        // assert "おお" == normalize_neologd("お             お")
         problem = "お             お";
         assert_eq!(normalize(problem), "おお");
         println!("{} -> {}", problem, normalize(problem));
 
-        // assert "おお" == normalize_neologd("      おお")
         problem = "      おお";
         assert_eq!(normalize(problem), "おお");
         println!("{} -> {}", problem, normalize(problem));
 
-        // assert "おお" == normalize_neologd("おお      ")
         problem = "おお      ";
         assert_eq!(normalize(problem), "おお");
         println!("{} -> {}", problem, normalize(problem));
 
-        // assert "検索エンジン自作入門を買いました!!!" == normalize_neologd("検索 エンジン 自作 入門 を 買い ました!!!")
         problem = "検索 エンジン 自作 入門 を 買い ました!!!";
         assert_eq!(normalize(problem), "検索エンジン自作入門を買いました!!!");
         println!("{} -> {}", problem, normalize(problem));
 
-        // assert "アルゴリズムC" == normalize_neologd("アルゴリズム C")
         problem = "アルゴリズム C";
         assert_eq!(normalize(problem), "アルゴリズムC");
         println!("{} -> {}", problem, normalize(problem));
 
-        // assert "PRML副読本" == normalize_neologd("　　　ＰＲＭＬ　　副　読　本　　　")
         problem = "　　　ＰＲＭＬ　　副　読　本　　　";
         println!("{} -> {}", problem, normalize(problem));
         assert_eq!(normalize(problem), "PRML副読本");
 
-        // assert "Coding the Matrix" == normalize_neologd("Coding the Matrix")
         problem = "Coding the Matrix";
         assert_eq!(normalize(problem), "Coding the Matrix");
         println!("{} -> {}", problem, normalize(problem));
 
-        // assert "南アルプスの天然水Sparking Lemonレモン一絞り" == normalize_neologd("南アルプスの　天然水　Ｓｐａｒｋｉｎｇ　Ｌｅｍｏｎ　レモン一絞り")
         problem = "南アルプスの　天然水　Ｓｐａｒｋｉｎｇ　Ｌｅｍｏｎ　レモン一絞り";
         assert_eq!(
             normalize(problem),
@@ -214,6 +200,15 @@ mod tests {
         let text = "I was born in 1912.02.04.";
         assert_eq!(clean_number(text, None), "I was born in 0.0.0.");
         assert_eq!(clean_number(text, Some("1")), "I was born in 1.1.1.");
+    }
+
+    #[test]
+    fn normalize_contraction_works() {
+        let text = "i'm can't cannot he's it's you're we're couldn't";
+        assert_eq!(
+            normalize_contraction(text),
+            "i am can not cannot he is it is you are we are could not"
+        );
     }
 
     #[test]

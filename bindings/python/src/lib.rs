@@ -10,6 +10,12 @@ fn normalize_neologd(text: &str) -> PyResult<String> {
 }
 
 #[pyfunction]
+fn normalize_contraction(text: &str) -> PyResult<String> {
+    let ret = yotsubars::utils::normalize_contraction(text);
+    Ok(ret)
+}
+
+#[pyfunction]
 fn clean_emails(text: &str, replace: Option<&str>) -> PyResult<String> {
     let ret = yotsubars::utils::clean_emails(text, replace);
     Ok(ret)
@@ -99,9 +105,6 @@ fn ja(_py: Python, m: &PyModule) -> PyResult<()> {
 fn yotsuba(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pymodule!(ja))?;
 
-    m.add_wrapped(wrap_pyfunction!(pad_sequence))?;
-    m.add_wrapped(wrap_pyfunction!(pad_sequences))?;
-    m.add_wrapped(wrap_pyfunction!(remove_stopwords))?;
     m.add_wrapped(wrap_pyfunction!(clean_emails))?;
     m.add_wrapped(wrap_pyfunction!(clean_emoji))?;
     m.add_wrapped(wrap_pyfunction!(clean_html_tags))?;
@@ -109,6 +112,10 @@ fn yotsuba(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(clean_url))?;
     m.add_wrapped(wrap_pyfunction!(get_stopwords))?;
     m.add_wrapped(wrap_pyfunction!(get_stopwords_by_frequency))?;
+    m.add_wrapped(wrap_pyfunction!(normalize_contraction))?;
+    m.add_wrapped(wrap_pyfunction!(pad_sequence))?;
+    m.add_wrapped(wrap_pyfunction!(pad_sequences))?;
+    m.add_wrapped(wrap_pyfunction!(remove_stopwords))?;
 
     Ok(())
 }

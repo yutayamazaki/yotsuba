@@ -191,3 +191,23 @@ pub fn get_stopwords(lang: &str) -> Result<Vec<&str>, YotsubaError> {
         _ => return Err(YotsubaError::LangDoesNotSupport),
     };
 }
+
+pub fn normalize_contraction(text: &str) -> String {
+    let mapper = [
+        (r"won't", "will not"),
+        (r"can't", "can not"),
+        (r"i'm", "i am"),
+        (r"(\w+)'ll", r"$1 will"),
+        (r"(\w+)n't", r"$1 not"),
+        (r"(\w+)'ve", r"$1 have"),
+        (r"(\w+)'s", r"$1 is"),
+        (r"(\w+)'re", r"$1 are"),
+    ];
+
+    let mut cleaned = text.clone().to_string();
+    for (reg, replace) in mapper.iter() {
+        let rep = Regex::new(reg).unwrap();
+        cleaned = rep.replace_all(&cleaned, *replace).to_string();
+    }
+    cleaned
+}
