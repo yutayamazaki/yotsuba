@@ -10,6 +10,7 @@ Welcome to yotsuba's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   installation
    source/reference/index
 
 
