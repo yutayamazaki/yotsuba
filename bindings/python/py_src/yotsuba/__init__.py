@@ -130,6 +130,22 @@ def get_stopwords_by_frequency(
     return ytb.get_stopwords_by_frequency(docs, max_freq)
 
 
+def normalize_contraction(text: str) -> str:
+    """Normalize english contractions.
+
+    Args:
+        text: A text to normalize contractions. Text need to be lowerecased.
+    Returns:
+        Normalized text.
+    Examples:
+        >>> import yotsuba
+        >>> text: str = "i'm it's"
+        >>> yotsuba.normalize_contraction(text)
+        'i am it is'
+    """
+    return ytb.normalize_contraction(text)
+
+
 def pad_sequence(
     sequence: List[int], maxlen: int, value: Optional[int] = None,
     padding: str = 'post'

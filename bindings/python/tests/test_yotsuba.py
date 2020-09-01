@@ -162,5 +162,16 @@ class CleanURLTests(unittest.TestCase):
         self.assertEqual(cleaned, 'foo<URL> bar')
 
 
+class NormalizeContractionTests(unittest.TestCase):
+
+    def test_simple(self):
+        text: str = "i'm can't cannot he's it's you're we're couldn't"
+        cleaned: str = yotsuba.normalize_contraction(text)
+        self.assertEqual(
+            cleaned,
+            'i am can not cannot he is it is you are we are could not'
+        )
+
+
 if __name__ == '__main__':
     unittest.main()

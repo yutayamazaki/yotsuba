@@ -201,7 +201,7 @@ pub fn normalize_contraction(text: &str) -> String {
         (r"(\w+)n't", r"$1 not"),
         (r"(\w+)'ve", r"$1 have"),
         (r"(\w+)'s", r"$1 is"),
-        (r"(\w+)'re", r"$1 are")
+        (r"(\w+)'re", r"$1 are"),
     ];
 
     let mut cleaned = text.clone().to_string();

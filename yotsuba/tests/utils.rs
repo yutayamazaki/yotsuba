@@ -205,7 +205,10 @@ mod tests {
     #[test]
     fn normalize_contraction_works() {
         let text = "i'm can't cannot he's it's you're we're couldn't";
-        assert_eq!(normalize_contraction(text), "i am can not cannot he is it is you are we are could not");
+        assert_eq!(
+            normalize_contraction(text),
+            "i am can not cannot he is it is you are we are could not"
+        );
     }
 
     #[test]
