@@ -1,9 +1,9 @@
 #[cfg(test)]
 mod tests {
     use yotsuba::ja::normalize;
-    use yotsuba::utils::clean_emails;
+    use yotsuba::utils::clean_email;
     use yotsuba::utils::clean_emoji;
-    use yotsuba::utils::clean_html_tags;
+    use yotsuba::utils::clean_html_tag;
     use yotsuba::utils::clean_number;
     use yotsuba::utils::clean_url;
     use yotsuba::utils::get_stopwords;
@@ -179,20 +179,20 @@ mod tests {
     }
 
     #[test]
-    fn clean_html_tags_works() {
+    fn clean_html_tag_works() {
         let text = "foo<a>bar</a>.";
-        assert_eq!(clean_html_tags(text, Some("")), "foobar.");
-        assert_eq!(clean_html_tags(text, Some("<TAG>")), "foo<TAG>bar<TAG>.");
+        assert_eq!(clean_html_tag(text, Some("")), "foobar.");
+        assert_eq!(clean_html_tag(text, Some("<TAG>")), "foo<TAG>bar<TAG>.");
     }
 
     #[test]
     fn clean_emails_works() {
         let text1 = "Hello a@example.com.";
-        assert_eq!(clean_emails(text1, None), "Hello .");
-        assert_eq!(clean_emails(text1, Some("<EMAIL>")), "Hello <EMAIL>.");
+        assert_eq!(clean_email(text1, None), "Hello .");
+        assert_eq!(clean_email(text1, Some("<EMAIL>")), "Hello <EMAIL>.");
 
         let text2 = "Hello a23@example2.com.";
-        assert_eq!(clean_emails(text2, None), "Hello .");
+        assert_eq!(clean_email(text2, None), "Hello .");
     }
 
     #[test]

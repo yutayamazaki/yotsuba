@@ -135,13 +135,13 @@ pub fn clean_url(text: &str, replace: Option<&str>) -> String {
     rep.replace_all(text, replace_).to_string()
 }
 
-pub fn clean_html_tags(text: &str, replace: Option<&str>) -> String {
+pub fn clean_html_tag(text: &str, replace: Option<&str>) -> String {
     let rep = Regex::new(r"<.+?>").unwrap();
     let replace_ = replace.unwrap_or("");
     rep.replace_all(text, replace_).to_string()
 }
 
-pub fn clean_emails(text: &str, replace: Option<&str>) -> String {
+pub fn clean_email(text: &str, replace: Option<&str>) -> String {
     let rep = Regex::new(r"[\w\-._]+@[\w\-._]+\.[A-Za-z]+").unwrap();
     let replace_ = replace.unwrap_or("");
     rep.replace_all(text, replace_).to_string()

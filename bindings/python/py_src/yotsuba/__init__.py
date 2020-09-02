@@ -4,7 +4,7 @@ from yotsuba import ja
 from yotsuba import yotsuba as ytb  # type: ignore
 
 
-def clean_emails(text: str, replace: str = '') -> str:
+def clean_email(text: str, replace: str = '') -> str:
     """Replace emails with given string.
 
     Args:
@@ -15,12 +15,12 @@ def clean_emails(text: str, replace: str = '') -> str:
     Examples:
         >>> import yotsuba
         >>> text: str = 'Hello aaa@example.com!'
-        >>> print(yotsuba.clean_emails(text))
+        >>> print(yotsuba.clean_email(text))
         Hello !
-        >>> print(yotsuba.clean_emails(text, '<URL>'))
+        >>> print(yotsuba.clean_email(text, '<URL>'))
         Hello <URL>!
     """
-    return ytb.clean_emails(text, replace)
+    return ytb.clean_email(text, replace)
 
 
 def clean_emoji(text: str, replace: str = '') -> str:
@@ -42,7 +42,7 @@ def clean_emoji(text: str, replace: str = '') -> str:
     return ytb.clean_emoji(text, replace)
 
 
-def clean_html_tags(text: str, replace: str = '') -> str:
+def clean_html_tag(text: str, replace: str = '') -> str:
     """Replace html tags and replace it with given token.
 
     Args:
@@ -53,12 +53,12 @@ def clean_html_tags(text: str, replace: str = '') -> str:
     Examples:
         >>> import yotsuba
         >>> text: str = 'aaa<a>bbb</a>ccc'
-        >>> print(yotsuba.clean_html_tags(text))
+        >>> print(yotsuba.clean_html_tag(text))
         aaabbbccc
-        >>> print(yotsuba.clean_html_tags(text, '<HTML>'))
+        >>> print(yotsuba.clean_html_tag(text, '<HTML>'))
         aaa<HTML>bbb<HTML>ccc
     """
-    return ytb.clean_html_tags(text, replace)
+    return ytb.clean_html_tag(text, replace)
 
 
 def clean_number(text: str, replace: str = '0') -> str:
