@@ -16,8 +16,8 @@ fn normalize_contraction(text: &str) -> PyResult<String> {
 }
 
 #[pyfunction]
-fn clean_emails(text: &str, replace: Option<&str>) -> PyResult<String> {
-    let ret = yotsubars::utils::clean_emails(text, replace);
+fn clean_email(text: &str, replace: Option<&str>) -> PyResult<String> {
+    let ret = yotsubars::utils::clean_email(text, replace);
     Ok(ret)
 }
 
@@ -28,8 +28,8 @@ fn clean_emoji(text: &str, replace: Option<&str>) -> PyResult<String> {
 }
 
 #[pyfunction]
-fn clean_html_tags(text: &str, replace: Option<&str>) -> PyResult<String> {
-    let ret = yotsubars::utils::clean_html_tags(text, replace);
+fn clean_html_tag(text: &str, replace: Option<&str>) -> PyResult<String> {
+    let ret = yotsubars::utils::clean_html_tag(text, replace);
     Ok(ret)
 }
 
@@ -105,9 +105,9 @@ fn ja(_py: Python, m: &PyModule) -> PyResult<()> {
 fn yotsuba(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pymodule!(ja))?;
 
-    m.add_wrapped(wrap_pyfunction!(clean_emails))?;
+    m.add_wrapped(wrap_pyfunction!(clean_email))?;
     m.add_wrapped(wrap_pyfunction!(clean_emoji))?;
-    m.add_wrapped(wrap_pyfunction!(clean_html_tags))?;
+    m.add_wrapped(wrap_pyfunction!(clean_html_tag))?;
     m.add_wrapped(wrap_pyfunction!(clean_number))?;
     m.add_wrapped(wrap_pyfunction!(clean_url))?;
     m.add_wrapped(wrap_pyfunction!(get_stopwords))?;

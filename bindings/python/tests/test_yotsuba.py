@@ -91,16 +91,16 @@ class GetStopwordsByFrequencyTests(unittest.TestCase):
         self.assertEqual(stopwords, ['pen'])
 
 
-class CleanEmailsTests(unittest.TestCase):
+class CleanEmailTests(unittest.TestCase):
 
     def test_simple(self):
         text: str = 'Regards, foo@example.com.'
-        cleaned: str = yotsuba.clean_emails(text)
+        cleaned: str = yotsuba.clean_email(text)
         self.assertEqual(cleaned, 'Regards, .')
 
     def test_replace(self):
         text: str = 'Regards, foo@example.com.'
-        cleaned: str = yotsuba.clean_emails(text, replace='<EMAIL>')
+        cleaned: str = yotsuba.clean_email(text, replace='<EMAIL>')
         self.assertEqual(cleaned, 'Regards, <EMAIL>.')
 
 
@@ -123,16 +123,16 @@ class CleanEmojiTests(unittest.TestCase):
         )
 
 
-class CleanHTMLTagsTests(unittest.TestCase):
+class CleanHTMLTagTests(unittest.TestCase):
 
     def test_simple(self):
         text: str = 'foo<a>hello</a>bar'
-        cleaned: str = yotsuba.clean_html_tags(text)
+        cleaned: str = yotsuba.clean_html_tag(text)
         self.assertEqual(cleaned, 'foohellobar')
 
     def test_replace(self):
         text: str = 'foo<a>hello</a>bar'
-        cleaned: str = yotsuba.clean_html_tags(text, replace=' ')
+        cleaned: str = yotsuba.clean_html_tag(text, replace=' ')
         self.assertEqual(cleaned, 'foo hello bar')
 
 
